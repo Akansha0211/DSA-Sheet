@@ -437,6 +437,67 @@ Space complexity : O(d)
 	   }
 
 
+(Juggling Algorithm)
+LATER...
+(Reversal Algorithm)
 
+(Block-swap Algorithm)
+
+
+Q8 Largest sum contigous Subarray
+
+(Approach 1)
+(Brute Force)
+Time complexity: O(n^3)  _-> using 3 nested loops
+Gives TLE
+
+	int max = arr[0];
+        for(int i = 0; i<n; i++){
+            for(int j = i; j<n; j++){
+                int sum = 0;
+                for(int k = i; k<=j; k++){
+                    sum += arr[k];
+                    if(sum > max){
+                        max = sum;
+                    }
+                }
+            }
+        }
+        return max;
+
+(Approach 2)
+(Brute Force)
+Time complexity: O(n^2) --> using 2 nested loops
+Gives TLE
+
+	int max = arr[0];
+        for(int i = 0; i<n; i++){
+            int sum = 0;
+            for(int j = i; j<n; j++){
+                sum+=arr[j];
+                if(sum>max){
+                    max = sum;
+                }
+            }
+        }
+        return max;
+
+(Approach 3)
+Kadane Algorithm
+Time complexity: O(n)
+Space complexity: O(1)
+
+	int sum = 0;
+        int max = arr[0];
+        for(int i = 0; i<n; i++){
+            sum+=arr[i];
+            if(sum>max){
+                max = sum;
+            }
+            if(sum<0){
+                sum = 0;
+            }
+        }
+        return max;
 
 
