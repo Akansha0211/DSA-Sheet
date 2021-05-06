@@ -1,4 +1,4 @@
-		ARRAYS QUESTIONS (TARGET 6 DAYS)
+		ARRAYS QUESTIONS (TARGET 8 DAYS)
 
 Q1  Reverse a String(DEALS WITH STRING AND ARRAY)
 (Naive approach)
@@ -446,6 +446,7 @@ LATER...
 
 Q8 Largest sum contigous Subarray
 
+
 (Approach 1)
 (Brute Force)
 Time complexity: O(n^3)  _-> using 3 nested loops
@@ -483,7 +484,7 @@ Gives TLE
         return max;
 
 (Approach 3)
-Kadane Algorithm
+Kadane Algorithm ( V. IMP)
 Time complexity: O(n)
 Space complexity: O(1)
 
@@ -499,5 +500,235 @@ Space complexity: O(1)
             }
         }
         return max;
+
+
+Q7 Minimum no.of Jumps to reach end of array
+
+(Naive approach)
+Recursion
+1 4 3 2 6 7
+
+jumps(1,7) = min(jumps(4,7))
+jumps(4,7) = min(jumps(3,7)),
+	     min(jumps(2,7)),
+	     min(jumps(6,7)),
+             min(jumps(7,7)
+(jumps(7,7) returns 0)
+jumps(3,7) = min(jumps(2,7)),
+             min(jumps(6,7)),
+             min(jumps(7,7))
+...
+
+
+Time compelexity : O(n^n) (doubt)
+
+(Approach 2)
+DP
+LATER...
+
+
+Q8 Duplicate in an array of N+1 integers
+
+(Approach 1)
+Sorting
+1. Sort the array
+2. Duplicate numbers will be adjacent to each other.
+
+Time complexity : O(nlogn)
+
+ 	Arrays.sort(nums);
+        for(int i = 1; i<nums.length; i++){
+            if(nums[i]==nums[i-1]){
+                return nums[i];
+            }
+        }
+        return -1;
+
+(Approach 2)
+HashSet ( contains, add) 
+1. Run a loop and add array elements into the set
+2. set adds only when element not present already , so check if set contains element already then return that element.
+
+Time complaexity: O(n)
+Space complexity: O(1)
+
+	Set<Integer> set = new HashSet<>();
+        for(int element: nums){
+            if(set.contains(element)){
+                return element;
+            }else{
+                set.add(element);
+            }
+        }
+        return -1;
+
+(Approach 3)
+Cycle detection method(Floyd's Tortoise and Hare method)
+Later...
+
+Q9 Merge two sorted arrays (Without using extra space)
+
+(Naive Approach) 
+if extra space allowed (or here can also use Two Pointer Algo)
+1. Take a temp array
+2. Copy elemnts of 1st array into temp array
+3. Copy elmnts of 2nd array into temp array
+4. Sort the temp array.
+5. Now copy the elemts back to the original arrays.
+Time complexity: O(nlogn)+ O(n) +O(n)
+Space complexity: O(n)
+
+	int arr[] = new int[n+m];
+        int i = 0;
+        for(int element : arr1){
+            arr[i] = element;
+            i++;
+        }
+        for(int element: arr2){
+            arr[i] = element;
+            i++;
+        }
+        Arrays.sort(arr);
+        int k = 0;
+        for(int j = 0; j<arr1.length; j++){
+            arr1[j] = arr[j];
+            k++;
+        }
+        for(int j = 0; j<arr2.length; j++){
+            arr2[j] = arr[k];
+            k++;
+        }
+
+
+(Approach 2)
+1. compare arr 1 with arr2 , if arr 1 element is greater than arr2 then swap it with arr2 element
+2. Sort arr2
+
+No extra space taken in this approach
+Gives TLE
+
+	int i = 0;
+        int j = 0;
+        while(i<n && j<m){
+            if(arr1[i]<arr2[j]){
+                i++;
+                
+            }
+            if(arr1[i]>arr2[j]){
+                int temp = arr1[i];
+                arr1[i] = arr2[j];
+                arr2[j] = temp;
+                i++;
+                Arrays.sort(arr2);
+            }
+        }
+
+(Approach 3)
+Gap method
+
+Later...
+
+Q10 Merge Intervals
+
+(Approach 1)
+Using stack
+1. sort the array acc to start(comparable, compareTo)
+2. push/merge the elements in stack with sorted elemnts:
+push the first element (always)
+merge --> when new element start is less than stack top ke last se.
+push --> when new element start is greater than top element end
+
+in case of merge (decide the top element end)
+for that --> max(new elemt end, top elemnt end)
+
+
+(Approach 2)
+	List<int[]>res  = new ArrayList<>();
+        Arrays.sort(intervals,(a,b)->a[0]-b[0]);
+        int start = intervals[0][0];
+        int end = intervals[0][1];
+        
+        for(int el[] : intervals){
+            if(el[0]<=end){
+                end = Math.max(end, el[1]);
+            }else{
+                res.add(new int[]{start,end});
+                start = el[0];
+                end = el[1];
+            }
+        }
+        res.add(new int[]{start,end});
+        return res.toArray(new int[0][]);
+
+
+Q11 Next Permutation
+
+(Naive approach)
+Generate all possible permutations of an array 
+Then iterate using loop and find the next greater permutation
+Time complexity: O(n!)
+1 3 2  --> 1 2 3
+	   1 3 2
+           2 1 3
+           2 3 1
+           3 1 2
+           3 2 1
+3 numbers can be arranged(permutations poss) = 3! = 6
+for n numbers --> n!
+
+(Approach 2)
+1.start loop from backwarrds and find a[i]>a[i+1]
+Eg  1 3 5 4 2 (here, 3 is decreasing no.)
+2.start loop again from back and find next greater number 
+3. swap both
+4. reverse from the index+1 to length-1
+
+ 	int i = nums.length-2;
+        while(i>=0 && nums[i]>=nums[i+1]){
+            i--;
+        }
+        if(i>=0){
+            int j = nums.length-1;
+            while(j>=i+1 && nums[j]<=nums[i]){
+                j--;
+            }
+            swap(nums,i,j);
+        }
+        reverse(nums,i+1,nums.length-1);
+    }
+    public static void swap(int nums[], int i , int j){
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+    public static void reverse(int nums[], int i, int j){
+        while(i<j){
+            swap(nums,i,j);
+            i++;
+            j--;
+        }
+    }
+
+
+Q12 Count Inversions
+
+(Naive approach)
+Brute Force
+Time complexity:O(n^2)
+Gives TLE
+
+	int count = 0;
+        for(int i = 0; i<N-1; i++){
+            for(int j = i+1; j<N; j++){
+                if(arr[i]>arr[j]){
+                    count++;
+                }
+            }
+        }
+        return count;
+
+(Approach 2)
+
+
 
 
