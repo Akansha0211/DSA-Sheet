@@ -502,7 +502,7 @@ Space complexity: O(1)
         return max;
 
 
-Q7 Minimum no.of Jumps to reach end of array
+Q9 Minimum no.of Jumps to reach end of array
 
 (Naive approach)
 Recursion
@@ -527,7 +527,7 @@ DP
 LATER...
 
 
-Q8 Duplicate in an array of N+1 integers
+Q10 Duplicate in an array of N+1 integers
 
 (Approach 1)
 Sorting
@@ -566,7 +566,7 @@ Space complexity: O(1)
 Cycle detection method(Floyd's Tortoise and Hare method)
 Later...
 
-Q9 Merge two sorted arrays (Without using extra space)
+Q11 Merge two sorted arrays (Without using extra space)
 
 (Naive Approach) 
 if extra space allowed (or here can also use Two Pointer Algo)
@@ -628,7 +628,7 @@ Gap method
 
 Later...
 
-Q10 Merge Intervals
+Q12 Merge Intervals
 
 (Approach 1)
 Using stack
@@ -661,7 +661,7 @@ for that --> max(new elemt end, top elemnt end)
         return res.toArray(new int[0][]);
 
 
-Q11 Next Permutation
+Q13 Next Permutation
 
 (Naive approach)
 Generate all possible permutations of an array 
@@ -710,7 +710,7 @@ Eg  1 3 5 4 2 (here, 3 is decreasing no.)
     }
 
 
-Q12 Count Inversions
+Q14 Count Inversions
 
 (Naive approach)
 Brute Force
@@ -730,5 +730,122 @@ Gives TLE
 (Approach 2)
 
 
+Q15 Best time to buy and sell stock
+
+(Brute Force)
+Gives TLE
+Time complexity:O(n^2)
+Space complexity:O(1)
+
+	int maxProfit = 0;
+        for(int i = 0; i<prices.length; i++){
+            for(int j = i+1; j<prices.length; j++){
+                if((prices[j]-prices[i])>maxProfit){
+                    maxProfit = prices[j]-prices[i];
+                }
+            }
+        }
+        return maxProfit;
 
 
+(Approach 2)
+
+Time complexity:O(n)
+Space complexity:O(1)
+
+	int minPrice = Integer.MAX_VALUE;
+        int maxProfit = 0;
+        for(int i = 0; i<prices.length; i++){
+            if(prices[i]<minPrice){
+                minPrice = prices[i];
+            }
+            else if(prices[i]-minPrice > maxProfit){
+                maxProfit = prices[i]-minPrice;
+            }
+        }
+        return maxProfit;
+
+Q16 Find all pairs on integer array whose sum is equal to given number
+
+(Naive approach)
+Time complexity:O(n^2)
+Gives TLE
+
+	int pair = 0;
+        for(int i = 0; i<arr.length-1; i++){
+            for(int j = i+1; j<arr.length; j++){
+                if(arr[i]+arr[j]==k){
+                    pair+=1;
+                }
+            }
+        }
+        return pair;
+
+(Approach 2)
+Using HashMap
+LATER...
+
+
+Q17 Find common elements in 3 sorted arrays
+
+(Approach 1)
+Time complaexity : O(n1+n2+n3)
+
+	ArrayList<Integer> common = new ArrayList<>();
+        int i = 0, j=0, k=0;
+        while(i<A.length && j<B.length && k<C.length){
+            if(A[i]==B[j]&& B[j]==C[k]){
+                if(!common.contains(A[i])){
+                    common.add(A[i]);
+                    
+                }
+                i++;
+                j++;
+                k++;
+            }
+            else if(A[i]<B[j]){
+                i++;
+            }
+            else if(B[j]<C[k]){
+                j++;
+            }
+            else{
+                k++;
+            }
+        }
+        return common;
+
+
+(Approach 2)
+1. Delete all duplicate  from arr 1 in  linear time(similarly from arr2 and arr3)
+2. calculate the freq of each element (using array)
+3. if freq == 3 --> we have found an element common in 3 arrays
+
+CODE (GETTING SOME BUGS RN)...
+
+
+
+Q18 Find if there is any subarray with sum equal to 0 
+
+(Naive approach)
+Time complexity:O(n^2)
+
+(Approach 2)
+Time complexity:O(n)
+Space complexity:O(n)
+(Trade-off is there)
+
+	Set<Integer> set = new HashSet<>();
+        int sum = 0;
+        for(int i = 0; i<arr.length; i++){
+            sum+=arr[i];
+            if(arr[i]==0 || sum ==0 || set.contains(sum)){
+                return true;
+            }else{
+                set.add(sum);
+            }
+        }
+        return false;
+
+
+Q17 Find factorial of a large number
