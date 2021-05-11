@@ -848,4 +848,53 @@ Space complexity:O(n)
         return false;
 
 
-Q17 Find factorial of a large number
+Q19 Find factorial of a large number
+
+(Approach 1)
+Using ArrayList
+
+ArrayList<Integer>list = new ArrayList<>();
+        list.add(0,1);
+        int len = 1;
+        for(int x = 2; x<=N; x++){
+            len = multiply(x,len,list);
+        }
+        Collections.reverse(list);
+        return list;
+    }
+    public static int multiply(int x, int len, ArrayList<Integer>list){
+        int carry = 0;
+        for(int i = 0; i<len; i++){
+            int pro = list.get(i)*x +carry;
+            list.set(i,pro%10);
+            carry = pro/10;
+        }
+        while(carry!=0){
+            list.add(len,carry%10);
+            carry = carry/10;
+            len++;
+        }
+        return len;
+(Approach 2)
+Using BigInteger
+but BIg integer has a limit to a certain point...
+
+Q20 Find maximum product subarray
+
+(Approach 1)Brute Force
+Time complexity : O(n^2)
+
+	long max_prod = arr[0];
+        for(int i = 0; i<n; i++){
+            long prod = arr[i];
+            for(int j = i+1; j<n; j++){
+                max_prod = Math.max(prod,max_prod);
+                prod = prod*arr[j];
+                
+            }
+            max_prod = Math.max(max_prod,prod);
+        }
+        return max_prod;
+
+
+
