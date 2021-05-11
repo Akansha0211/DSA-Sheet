@@ -1,0 +1,79 @@
+		Strings(Target 10 days)
+
+Q1 Reverse a string
+https://leetcode.com/problems/reverse-string/
+(Approach 1)
+Using two pointer
+1. One pointer starting from start and another from end
+2. Swap the value prsent at the two pointers.
+Time complexity:O(N/2) i.e O(n) 
+Space complexity: O(1)
+
+	int start = 0;
+        int end = s.length-1;
+        while(start<end){
+            char temp = s[start];
+            s[start] = s[end];
+            s[end] = temp;
+            start++;
+            end--;
+        }
+
+(Approach 2)
+Using stack
+Time complexity: O(n)
+Space complexity:O(n)
+
+	Stack<Character> st = new Stack<>();
+        for(int i = 0; i<s.length; i++){
+            st.push(s[i]);
+        }
+        int i =0;
+        while(!st.isEmpty() && i<s.length){
+            s[i] = st.pop();
+            i++;
+        }
+
+Q2 Check whether a string is palindrome or not.
+Time Complexity:O(n)
+
+	int start = 0;
+        int end = S.length()-1;
+        while(start<end){
+            char ch1 = S.charAt(start);
+            char ch2 = S .charAt(end);
+            if(ch1!=ch2){
+                return 0;
+            }
+            else{
+                start++;
+                end--;
+            }
+        }
+        return 1;
+
+Q3 Remove all duplicates from a given string
+(Approach 1)
+
+	StringBuilder sb = new StringBuilder();
+        for(int i = 0; i<str.length();i++){
+            int j;
+            for(j = 0; j<str.length();j++){
+                if(str.charAt(i)==str.charAt(j)){
+                    break;
+                }
+            }
+            if(i==j){
+                sb.append(str.charAt(i));
+            }
+        }
+        return sb.toString();
+
+(Approach 2)
+Using Freq table..
+
+Note:
+int to char : int a = 97 --> char ch = (char)a
+char to int : char ch = 'a' --> int ascii = ch
+
+CODE(GETTING SOME BUGS RN)...
