@@ -53,6 +53,7 @@ Time Complexity:O(n)
         return 1;
 
 Q3 Remove all duplicates from a given string
+https://practice.geeksforgeeks.org/problems/remove-all-duplicates-from-a-given-string4321/1#
 (Approach 1)
 
 	StringBuilder sb = new StringBuilder();
@@ -71,9 +72,54 @@ Q3 Remove all duplicates from a given string
 
 (Approach 2)
 Using Freq table..
+1. Run a loop across string and find freq of each letter
+capital letters in one freq table and small in another
+(ascii : a-z -> 97 - 122 
+	 A-Z -> 65 - 90)
+2. Run a loop again on String and check if:
+	its count is 1 in freq table --> append it into  stringBuilder
+ 	its count is greater than one , then you have to just remove the duplicate so include it once ( append it in stringBuilder once) & change it freq count in table to 0.
 
 Note:
 int to char : int a = 97 --> char ch = (char)a
 char to int : char ch = 'a' --> int ascii = ch
 
-CODE(GETTING SOME BUGS RN)...
+
+	StringBuilder sb = new StringBuilder();
+        int t1[] = new int[26];
+        int t2[] = new int[26];
+        for(int i = 0; i<str.length();i++){
+            char ch = str.charAt(i);
+            int ascii = ch;
+            if(ascii >=65 && ascii<=90){
+                t1[ch-65]++;
+            }
+            if(ascii>=97 && ascii<=122){
+                t2[ch-97]++;
+            }
+        }
+        for(int i = 0; i<str.length();i++){
+            char ch = str.charAt(i);
+            int ascii = ch;
+            if(ascii >=65 && ascii<=90){
+                if(t1[ascii-65] == 1){
+                    sb.append(ch);
+                }
+                else if(t1[ascii-65]>1){
+                    sb.append(ch);
+                    t1[ascii-65] = 0;
+                }
+            }
+            else if(ascii>=97 && ascii<=122){
+                if(t2[ascii-97]==1){
+                    sb.append(ch);
+                }
+                else if(t2[ascii-97]>1){
+                    sb.append(ch);
+                    t2[ascii-97] = 0;
+                }
+            }
+        }
+        return sb.toString();
+
+
