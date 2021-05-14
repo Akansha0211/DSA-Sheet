@@ -158,4 +158,66 @@ returns -1 if elemnt passed to it is not found in the string
 
 (Approach 3)
 KMP (Kruth-Morris-Pratt)algo
+LATER...
+
+
+Q5 Check whether a string is a valid shuffle of two strings or not
+
+DP(LATER...
+
+
+Q6 COUNT AND SAY PROBLEM
+(Approach 1)
+	String res = "1";
+        for(int i = 0; i<n-1; i++){
+            char ch = res.charAt(0);
+            StringBuilder sb = new StringBuilder();
+            int count = 1;
+            for(int j = 1; j<res.length();j++){
+                if(ch != res.charAt(j)){
+                    sb.append(count);
+                    sb.append(ch);
+                    count = 0;
+                    ch = res.charAt(j);
+                }
+                count++;
+            }
+            sb.append(count);
+            sb.append(ch);
+            res = sb.toString();
+        }
+        return res;
+
+
+Q7 Count all palindromic substrings in a string
+https://leetcode.com/problems/palindromic-substrings/
+
+(Approach 1)
+(Brute Force)
+	int count = 0;
+        for(int i = 0; i<s.length(); i++){
+            for(int j = i+1; j<=s.length();j++){
+                String ss = s.substring(i,j);
+                if(isPalindrome(ss)){
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+    public static boolean isPalindrome(String ss){
+        int i = 0; 
+        int j = ss.length()-1;
+        while(i<j){
+            char ch1 = ss.charAt(i);
+            char ch2 = ss.charAt(j);
+            if(ch1==ch2){
+                i++;
+                j--;
+            }else{
+                return false;
+            }
+        }
+        return true;
+    }
 
