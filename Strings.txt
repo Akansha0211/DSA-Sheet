@@ -123,3 +123,39 @@ char to int : char ch = 'a' --> int ascii = ch
         return sb.toString();
 
 
+Q4 Check whether one string is a rotation of another.
+https://www.hackerrank.com/contests/codemania/challenges/string-rotation
+https://practice.geeksforgeeks.org/problems/check-if-strings-are-rotations-of-each-other-or-not-1587115620/1#
+(Approach 1)
+Using indexOf() method
+returns -1 if elemnt passed to it is not found in the string
+
+	String s = s1+s1;
+        if((s1.length()==s2.length()) && (s.indexOf(s2)!=-1)){
+            return true;
+        }
+        return false;
+
+
+(Approach 2)
+
+	String s = s1+s1;
+        if(s1.length()!=s2.length()){
+            return false;
+        }
+        for(int i = 0; i<=s.length()-s2.length();i++){
+            int j;
+            for(j = 0; j<s2.length();j++){
+                if(s.charAt(i+j)!=s2.charAt(j)){
+                    break;
+                }
+            }
+            if(j==s2.length()){
+                return true;
+            }
+        }
+        return false;
+
+(Approach 3)
+KMP (Kruth-Morris-Pratt)algo
+
