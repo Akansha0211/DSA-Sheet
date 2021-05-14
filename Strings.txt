@@ -194,6 +194,12 @@ https://leetcode.com/problems/palindromic-substrings/
 
 (Approach 1)
 (Brute Force)
+Time complexity:O(N^3)
+Substrings = n(n-1)/2 = n^2
+For each substring check for palindrome = n
+Gives TLE
+
+
 	int count = 0;
         for(int i = 0; i<s.length(); i++){
             for(int j = i+1; j<=s.length();j++){
@@ -220,4 +226,45 @@ https://leetcode.com/problems/palindromic-substrings/
         }
         return true;
     }
+
+(Approach 2)
+DP
+Time complexity: O(n^2)
+Space Complexity: O(n^2)
+
+	boolean dp[][] = new boolean[s.length()][s.length()];
+        int count = 0;
+        for(int g = 0; g<s.length();g++){
+            for(int i = 0,j=g; j<dp.length; j++,i++){
+                if(g==0){
+                    dp[i][j] = true;
+                    // count++;
+                }
+                else if(g==1){
+                    if(s.charAt(i)==s.charAt(j)){
+                        dp[i][j]= true;
+                        // count++;
+                    }
+                    else{
+                        dp[i][j] = false;
+                    }
+                }
+                else{
+                    if(s.charAt(i)==s.charAt(j) && dp[i+1][j-1]==true){
+                        dp[i][j]= true;
+                        // count++;
+                    }else{
+                        dp[i][j] = false;
+                    }
+                }
+                if(dp[i][j]){
+                    count++;
+                }
+            }
+        }
+        return count;
+
+
+
+
 
