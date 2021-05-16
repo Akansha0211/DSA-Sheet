@@ -231,6 +231,7 @@ Gives TLE
 DP
 Time complexity: O(n^2)
 Space Complexity: O(n^2)
+This approach might help in questions like : Matrix-chain multiplication & Egg Dropping Problem
 
 	boolean dp[][] = new boolean[s.length()][s.length()];
         int count = 0;
@@ -265,6 +266,134 @@ Space Complexity: O(n^2)
         return count;
 
 
+Q8 Longest Palindromic Substring
+https://leetcode.com/problems/longest-palindromic-substring/
+(Approach 1)
+(Brute Force)
+Gives TLE
+
+	String ans = "";
+        int count = 0;
+        for(int i = 0; i<s.length(); i++){
+            for(int j = i+1; j<=s.length();j++){
+                String ss = s.substring(i,j);
+                if(isPalindrome(ss) && ss.length()> ans.length()){
+                    ans = ss;
+                }
+            }
+        }
+        return ans;
+    }
+    public static boolean isPalindrome(String ss){
+        int i = 0; 
+        int j = ss.length()-1;
+        while(i<j){
+            char ch1 = ss.charAt(i);
+            char ch2 = ss.charAt(j);
+            if(ch1==ch2){
+                i++;
+                j--;
+            }else{
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+(Approach 2)
+DP
+LATER...
+
+
+Q9 String Compression
+https://www.hackerrank.com/contests/launchpad-1-winter-challenge/challenges/string-compression-1/copy-from/1333456175
+
+2 variations:
+1. aaabbcccddaeef  -> abcdaef
+2. aaabbcccddaeef  -> a3b2c3d2ae2f
+
+	String res = str.substring(0,1);
+        int count = 1;
+        for(int i = 1; i<str.length();i++){
+            char curr = str.charAt(i);
+            char prev = str.charAt(i-1);
+            if(curr == prev){
+                count++;
+            }else{
+                if(count>1){
+                    res+=count;
+                    count = 1;
+                }
+                res+=curr;
+            }
+        }
+        if(count>1){
+            res+=count;
+            count = 1;
+        }
+        return res;
+
+
+Q10 Frequent Characters
+https://www.hackerrank.com/contests/brushup/challenges/frequent-characters
+
+https://www.geeksforgeeks.org/why-is-scanner-skipping-nextline-after-use-of-other-next-functions/
+
+
+TEST CASES GIVEN HAVE ISSUE( Eg cheatsheet -- > output 'e')
+
+public static String freqChar(String s){
+        int freq[] = new int[26];
+        String res = "";
+        //calculating freq of each character.
+        for(int i = 0;i<s.length();i++){
+            char ch = s.charAt(i);
+            if(ch==','|| ch==' '){
+                continue;
+            }
+            else{
+                freq[ch-97]++;
+            }
+        }
+        //finding max freq
+        int max = freq[0];
+        for(int i = 1; i<freq.length; i++){
+            if(freq[i]>max){
+                max = freq[i];
+            }
+        }
+        // if freq of particular char is max then only it is added to string res
+        for(int i= 0; i<s.length();i++){
+            char ch = s.charAt(i);
+            if(ch==','||ch==' '){
+                continue;
+            }else{
+                if(freq[ch-97]==max){
+                    res+=ch;
+                    freq[ch-97] = 0;
+                }
+            }
+            
+        }
+        return res;
+    }
 
 
 
+Q11 First Non-repeating character in a stream
+https://practice.geeksforgeeks.org/problems/first-non-repeating-character-in-a-stream1216/1
+
+(ALSO TRY)
+https://leetcode.com/problems/first-unique-character-in-a-string/
+(Approach 1)
+Using Queue
+
+Classes which implements Queue:
+1. Priority Queue
+2. LinkedList
+3. PriorityBlockingQueue
+
+LATER...
+
+Q12 
