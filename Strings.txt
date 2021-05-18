@@ -341,7 +341,7 @@ https://www.hackerrank.com/contests/brushup/challenges/frequent-characters
 https://www.geeksforgeeks.org/why-is-scanner-skipping-nextline-after-use-of-other-next-functions/
 
 
-TEST CASES GIVEN HAVE ISSUE( Eg cheatsheet -- > output 'e')
+TEST CASES GIVEN HAVE ISSUE( Eg cheatsheet -- > output should be 'e')
 
 public static String freqChar(String s){
         int freq[] = new int[26];
@@ -380,20 +380,55 @@ public static String freqChar(String s){
     }
 
 
-
-Q11 First Non-repeating character in a stream
-https://practice.geeksforgeeks.org/problems/first-non-repeating-character-in-a-stream1216/1
-
-(ALSO TRY)
-https://leetcode.com/problems/first-unique-character-in-a-string/
+Q11 Anagrams
+https://practice.geeksforgeeks.org/problems/anagram-1587115620/1#
 (Approach 1)
-Using Queue
+(Naive approach)
+Using two count arrays
 
-Classes which implements Queue:
-1. Priority Queue
-2. LinkedList
-3. PriorityBlockingQueue
+int count1[] = new int[26];
+    int count2[] = new int[26];
+    for(int i = 0; i<a.length(); i++){
+        char ch = a.charAt(i);
+        count1[ch-97]++;
+    }
+    for(int i = 0; i<b.length(); i++){
+        char ch = b.charAt(i);
+        count2[ch-97]++;
+    }
+    int res = 0;
+    for(int i= 0; i<26; i++){
+        res+=Math.abs(count1[i]-count2[i]);
+    }
+    if(res!=0){
+        return false;
+    }
+    return true;
+        
+    }
 
-LATER...
+(Approach 2)
+Using one array
 
-Q12 
+int count[] = new int[26];
+    
+    for(int i = 0; i<a.length(); i++){
+        char ch = a.charAt(i);
+        count[ch-97]++;
+    }
+    for(int i = 0; i<b.length(); i++){
+        char ch = b.charAt(i);
+        count[ch-97]--;
+    }
+    int res = 0;
+    for(int i= 0; i<26; i++){
+        res+=Math.abs(count[i]);
+    }
+    if(res>0){
+        return false;
+    }
+    return true;
+        
+    }
+
+Q12

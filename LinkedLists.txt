@@ -1,0 +1,97 @@
+		LinkedList(Target 4 days)
+
+
+Q1 Reverse a LinkedList
+
+1. at start store prev as null, current is pointing to null
+and next is pointing to th next of the current element.
+2. break the current's next and point it to the prev (but remember to store current's next in a variable(eg next) otherwise you will loose your LL)
+
+	Node prev = null;
+        Node curr = head;
+        Node next = null;
+        while(curr!= null){
+            next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+        return prev;
+
+Q2 Given only a pointer to a node to be deleted in a singly linked list, how do you delete it??
+https://practice.geeksforgeeks.org/problems/delete-without-head-pointer/1
+(YOU WILL NOT BE GIVEN ACCESS TO THE HEAD OF THE LIST)
+
+Eg 1->2->3->5->NULL 
+	 |
+	(node to be deleted) you can't access its prev as head is not given. (generally what we do is 2->5, but won't work here)
+
+you can only access the right node of the linkedlist given a node refernce to you.
+
+(Approach)
+1. copy node next value to the node 
+2.point node's next to  next of next.
+
+if given node's next is null (i.e last node is to be deleted )
+directly point to null
+1->2->3->5->null
+	 |
+	node
+change value of 5 to null
+
+
+void deleteNode(Node del)
+    {
+         // Your code here
+         Node nex = del.next;
+         del.data = nex.data;
+         del.next = nex.next;
+         
+    }
+
+Q3 First Non-repeating character in a stream
+https://practice.geeksforgeeks.org/problems/first-non-repeating-character-in-a-stream1216/1
+https://www.interviewbit.com/problems/first-non-repeating-character-in-a-stream-of-characters/
+
+(ALSO TRY)
+https://leetcode.com/problems/first-unique-character-in-a-string/
+
+(Approach 1)
+1. using a freq array
+2. ArraysList for storing the order of char
+
+	int freq[] = new int[26];
+        ArrayList<Character> order = new ArrayList<>();
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i<A.length() ;i++){
+            char ch = A.charAt(i);
+            if(freq[ch-97]==0){
+                order.add(A.charAt(i));
+            }
+            freq[A.charAt(i)-97]++;
+            int flag = 0;
+            for(int j = 0; j<order.size() ;j++){
+                if(freq[order.get(j)-97]==1){
+                    sb.append(order.get(j));
+                    flag = 1;
+                    break;
+                }
+            }
+            if(flag==0){
+                sb.append('#');
+            }
+        }
+        return sb.toString();
+
+
+(Approach 1)
+Using Queue
+
+Classes which implements Queue:
+1. Priority Queue
+2. LinkedList
+3. PriorityBlockingQueue
+
+LATER...
+
+
