@@ -83,8 +83,11 @@ https://leetcode.com/problems/first-unique-character-in-a-string/
         }
         return sb.toString();
 
+(Approach 2)
+Using LinkedLists 
+LATER...
 
-(Approach 1)
+(Approach 3)
 Using Queue
 
 Classes which implements Queue:
@@ -93,5 +96,32 @@ Classes which implements Queue:
 3. PriorityBlockingQueue
 
 LATER...
+
+
+Q4 Nth node from then end of a Linked List
+https://practice.geeksforgeeks.org/problems/nth-node-from-end-of-linked-list/1#
+https://www.interviewbit.com/problems/remove-nth-node-from-list-end/#:~:text=Given%20a%20linked%20list%2C%20remove,%2D%3E3%2D%3E5%20.
+
+
+	Node slow = head;
+    	Node fast = head;
+    	
+    	for(int i = 0; i<n ;i++){
+    	   // if(fast!=null){
+    	   //     fast = fast.next;
+    	   // }
+    	   // else if(fast==null){
+    	   //     return -1;
+    	   // }
+    	   if(fast == null){
+    	       return -1; // when k = 18 and lenth of LL <18
+    	   }
+    	   fast = fast.next;
+    	}
+    	while(fast!=null){
+    	    slow = slow.next;
+    	    fast = fast.next;
+    	}
+    	return slow.data;
 
 
