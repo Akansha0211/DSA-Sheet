@@ -280,3 +280,86 @@ https://leetcode.com/problems/intersection-of-two-linked-lists/
             tempB = tempB == null ? headA : tempB.next;
         }
         return tempA;
+
+
+Q8 Implement a stack using LinkedList
+
+
+public class Stack {
+    private Node top;
+    private int size;
+
+    private class Node{
+        private int data;
+        private Node next;
+
+        public Node(int data){
+            this.data = data;
+            this.next = null;
+        }
+    }
+
+    public void push(int data){
+        Node temp = new Node(data);
+        temp.next = top; // newly added node next is top
+        top = temp; // now new top is temp node
+        size++;
+    }
+    public int pop(){
+        if(isEmpty()){
+            System.out.println("Stack Underflow");
+            return -1;
+        }
+        int top_val = top.data;
+        top = top.next;
+        size--;
+        return top_val;
+    }
+    public int peek(){
+        if (isEmpty()){
+            System.out.println("Stack is empty");
+            return -1;
+        }
+        return top.data;
+    }
+    public void printStack(){
+        Node curr = top;
+        while (curr != null){
+            System.out.println("Stack elements are : ");
+            System.out.println(curr.data);
+            curr = curr.next;
+        }
+    }
+    public int getSize(){
+        return size;
+    }
+    public boolean isEmpty(){
+        if(getSize()==0){
+            return true;
+        }
+        return false;
+    }
+
+    public static void main(String[] args) {
+        Stack st = new Stack();
+        System.out.println(st.getSize());
+        st.push(10);
+        st.push(20);
+        st.push(30);
+        st.push(40);
+        st.push(50);
+        st.push(60);
+        System.out.println(st.getSize());
+        System.out.println(st.isEmpty());
+        System.out.println(st.peek());
+        st.pop();
+        st.pop();
+        st.pop();
+        st.pop();
+        System.out.println(st.peek());
+        st.pop();
+        st.pop();
+        System.out.println(st.getSize());
+    }
+}
+
