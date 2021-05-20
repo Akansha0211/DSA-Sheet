@@ -224,5 +224,59 @@ https://leetcode.com/problems/intersection-of-two-linked-lists/discuss/1217327/B
         }
         return null;
 
+(Approach 3)
+Time complexity = O(m) + O(m-n) + O(n) = O(2m)
+Space complexity = O(1)
 
+	int intersectPoint(Node head1, Node head2)
+	{
+         // code here
+         // Find the lengths of the linked lists
+         int size1 = size(head1);
+         int size2 = size(head2);
+         int diff = Math.abs(size1-size2);
+         Node temp1 = head1;
+         Node temp2 = head2;
+         if(size1>size2){
+             for(int i = 0; i<diff ; i++){
+                 temp1 = temp1.next;
+             }
+         }
+         else{
+             for(int i = 0; i<diff; i++){
+                 temp2 = temp2.next;
+             }
+         }
+         
+         while(temp1 != null && temp2!= null){
+             if(temp1 == temp2){
+                 return temp1.data;
+             }
+             temp1 = temp1.next;
+             temp2 = temp2.next;
+         }
+         return -1;
+	}
+	public static int size(Node head){
+	    int count = 0;
+	    Node temp = head;
+	    while(temp!= null){
+	        count++;
+	        temp = temp.next;
+	    }
+	    return count;
+	}
 
+(Approach 4)
+https://leetcode.com/problems/intersection-of-two-linked-lists/
+
+	if(headA == null || headB == null){
+            return null;
+        }
+        ListNode tempA = headA;
+        ListNode tempB = headB;
+        while(tempA != tempB){
+            tempA = tempA==null ? headB : tempA.next;
+            tempB = tempB == null ? headA : tempB.next;
+        }
+        return tempA;
