@@ -363,3 +363,82 @@ public class Stack {
     }
 }
 
+Q9 Implement queue using LinkedList
+
+public class Queue {
+    private Node rear;
+    private Node front;
+    private int size;
+
+    public Queue(){
+        front = null;
+        rear = null;
+        size = 0;
+    }
+    public boolean isEmpty(){
+        if (getSize()==0){
+            return true;
+        }
+        return false;
+    }
+    public int getSize(){
+        return size;
+    }
+
+    public void Enqueue(int data){
+        Node node = new Node(data);
+        if (front == null){
+            rear = node;
+            front = node;
+            size++;
+        }else{
+            rear.next = node;
+            rear = node;
+            size++;
+        }
+    }
+
+    public Node Dequeue(){
+        Node temp = null;
+        if(front != null && front.next !=null){
+            temp = new Node(front.data);
+            front = front.next;
+            size--;
+        }
+        else {
+            temp = new Node(front.data);
+            front = null;
+            rear = null;
+            size--;
+        }
+        return temp;
+    }
+    public int peek(){
+        Node temp = null;
+        if (!isEmpty()){
+            temp = new Node(front.data);
+        }
+        return temp.data;
+    }
+
+    private class Node{
+        private int data;
+        private Node next;
+
+        public Node(int data){
+            this.data = data;
+        }
+    }
+
+    public static void main(String[] args) {
+        Queue queue = new Queue();
+        queue.Enqueue(10);
+        System.out.println("Queue size "+queue.getSize());
+        System.out.println("Element at front " + queue.peek());
+        queue.Enqueue(20);
+        queue.Dequeue();
+        System.out.println(queue.getSize());
+        System.out.println("Element at front "+queue.peek());
+
+    }
+}
