@@ -347,9 +347,59 @@ Using Hashing
 
 Q10 Rotate Linked List (move last element to the first in Linked List)
 
+https://leetcode.com/problems/rotate-list/
 
+(Approach 1)
+GIVES TLE
 
+	if(head == null){
+            return null;
+        }
+        else if(head.next == null){
+            return head;
+        }
+        while(k>0){
+            ListNode last = head;
+            ListNode secLast = null;
+            k--;
+            while(last.next != null){
+                secLast = last;
+                last = last.next;
+            }
+            secLast.next = null;
+            last.next = head;
+            head = last;
+        }
+        return head;
 
+(Approach 2)
+0->1->2-> null
+
+rotate 1 time : 2->0->1->null
+rotate 2 times : 1->2->0->null
+rotate 3 times : no rotation(i.e rotate = 3 times = no rotation)
+rotate 4 times = rotate 1 time (k%length)
+
+	if(head == null || head.next==null){
+            return head;
+        }
+        ListNode curr = head;
+        int len = 1;
+        while(curr.next != null){
+            len++;
+            curr = curr.next;
+        }
+        curr.next = head;
+        
+        k = len-k%len;
+        
+        while(k > 0){
+            k--;
+            curr = curr.next;
+        }
+        head = curr.next;
+        curr.next = null;
+        return head;   
 
 
 
