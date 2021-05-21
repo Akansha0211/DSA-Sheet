@@ -282,6 +282,81 @@ https://leetcode.com/problems/intersection-of-two-linked-lists/
         return tempA;
 
 
+
+
+
+Q8 Remove duplicates from an unsorted Linkedlist
+https://leetcode.com/problems/remove-duplicates-from-sorted-list/
+
+HashSet<Integer> set = new HashSet<>();
+         ListNode curr = head;
+         ListNode prev = null;
+         while(curr != null){
+             if(set.contains(curr.val)){
+                prev.next = curr.next;
+               
+             }else{
+                 set.add(curr.val);
+                 prev = curr;
+                 
+             }
+             curr = curr.next;
+         }
+         return head;
+
+
+
+Q9 Find start of the loop in Linked List
+https://leetcode.com/problems/linked-list-cycle-ii/
+
+public ListNode detectCycle(ListNode head) {      
+        if(head == null || head.next == null){
+            return null;
+        }
+        ListNode slow = head;
+        ListNode fast = head;       
+        while(fast.next != null && fast.next.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+            
+            if(slow == fast){
+                slow = head;
+                while(slow != fast){
+                    slow = slow.next;
+                    fast = fast.next;
+                }
+                return slow;
+            }
+        }
+        return null;
+    }
+
+(Approach 2)
+Using Hashing
+
+	HashSet<ListNode> set = new HashSet<>();
+        ListNode curr = head;
+        while(curr != null){
+            if(set.contains(curr)){
+                return curr;
+            }
+            set.add(curr);
+            curr = curr.next;
+        }
+        return null;
+
+Q10 Rotate Linked List (move last element to the first in Linked List)
+
+
+
+
+
+
+
+
+
+
+
 Q8 Implement a stack using LinkedList
 
 
