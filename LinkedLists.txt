@@ -401,6 +401,28 @@ rotate 4 times = rotate 1 time (k%length)
         curr.next = null;
         return head;   
 
+Q11 Middle of a LinkedList
+
+(Approach 1)
+
+	ListNode[] arr = new ListNode[100];
+        int index = 0;
+        while(head!= null){
+            arr[index] = head;
+            index++;
+            head = head.next;
+        }
+        return arr[index/2];
+
+(Approach 2)
+	ListNode slow = head;
+        ListNode fast = head;
+        while(fast != null && fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+
 
 
 

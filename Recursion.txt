@@ -1,0 +1,130 @@
+	Recursion in Arrays & ArraysLists (Target 2 days) 
+
+
+https://leetcode.com/discuss/interview-question/560977/Google-or-Phone-Screen-or-Print-array-of-arrays-without-nested-loop/490211
+
+https://www.geeksforgeeks.org/recursion-practice-problems-solutions/
+
+
+
+Q1 Display Array elements using recursion
+
+Expectation : idx se end tak sab print karde
+Faith : idx+1 se end tak print krna jaanta hain 
+
+Faith -> Expectation : print arr[idx] + recursive_call( idx+1)
+
+	displayArr(arr,0);
+    
+
+    public static void displayArr(int[] arr, int idx){
+        if(idx==arr.length){
+            return;
+        }
+        System.out.println(arr[idx]);
+        displayArr(arr,idx+1);
+    }
+
+Q2 Print array elements in reverse using 
+
+	displayArrReverse(arr,0);
+    
+    public static void displayArrReverse(int[] arr, int idx) {
+        
+        if(idx == arr.length){
+            return;
+        }
+        displayArrReverse(arr,idx+1);
+        System.out.println(arr[idx]);
+
+    }
+
+Q3 Max of an array using recursion
+
+Expectation: max(arr,0)  --> give max out of whole array
+Faith : max(arr,1)	 --> give max from index 1 to last
+Faith to Expectation : arr[0] vs max(arr,1)
+
+Eg 22,33,4,19,7 
+max from index 1 to last = 33
+22 vs 33 -> max = 33
+
+	int max = maxOfArray(arr,0);
+        System.out.println(max);
+    
+    public static int maxOfArray(int[] arr, int idx){
+        if(idx == arr.length-1){
+            return arr[idx];
+        }
+        int val = maxOfArray(arr,idx+1);
+        if(val>arr[idx]){
+            return val;
+        }else{
+            return arr[idx];
+        }
+        
+    }
+
+Q4 First index in an array using recursion
+
+	if(idx == arr.length){
+            return -1;
+        }
+        int fi = firstIndex(arr, idx+1, x);
+        if(arr[idx]==x){
+            return idx;
+        }else{
+            return fi;
+        }
+
+
+(efficient approach)
+	
+public static int firstIndex(int[] arr, int idx, int x){
+        if(idx == arr.length){
+            return -1;
+        }
+        if(arr[idx] == x){
+            return idx;
+        }
+        else{
+            int fi = firstIndex(arr, idx+1, x);
+            return fi;
+        }
+    }
+
+
+Q5 Last index
+
+		
+		1 to end
+		   /    \
+                  /      \
+	        -1        index
+		/ \
+               /   \
+           a[0]= x  a[0]!=x
+            |         |--> return -1
+	   \|/
+           return 0
+
+
+public static int lastIndex(int[] arr, int idx, int x) {
+    
+    if(idx == arr.length){
+        return -1;
+    }
+    int index = lastIndex(arr, idx+1, x);
+    if(index == -1){
+        if(arr[idx] == x){
+            return idx;
+        }else{
+            return -1;
+        }
+    }else{
+        return index;
+    }
+   
+  }
+
+
