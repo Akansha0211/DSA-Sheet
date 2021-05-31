@@ -34,7 +34,7 @@ static ArrayList <Integer> levelOrder(Node node)
 https://leetcode.com/problems/binary-tree-level-order-traversal/
 
 public List<List<Integer>> levelOrder(TreeNode root) {
-        // List<List<Integer>> wrapList = new LinkedList<List<Integer>>();
+        
         List<List<Integer>> list = new ArrayList<List<Integer>>();
         Queue<TreeNode> q = new ArrayDeque<>();
         if(root == null) return list;
@@ -86,3 +86,39 @@ public ArrayList<Integer> reverseLevelOrder(Node node)
         }
         return list;
     }
+
+
+Q3 Height of a Binary Tree
+
+int height(Node node) 
+    {
+        // code here 
+        if(node == null)return 0; // -1 for height in terms of edges and 0 for nodes
+        int lh = height(node.left);
+        int rh = height(node.right);
+        int toth = Math.max(lh, rh)+1;
+        return toth;
+    }
+
+
+Q4 Diameter of Binary Tree
+
+LATER...
+
+Q5 Miror of a Binary Tree
+https://practice.geeksforgeeks.org/problems/mirror-tree/1#
+void mirror(Node node)
+    {
+	// Your code here
+	    if(node!= null){
+	        mirror(node.left);
+	        mirror(node.right);
+	        
+	        Node temp = node.left;
+	        node.left = node.right;
+	        node.right = temp;
+	        
+	    }
+	    return;
+
+
