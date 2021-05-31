@@ -29,33 +29,6 @@ static ArrayList <Integer> levelOrder(Node node)
 
 
 
-Q2 Reverse Level Order Traversal
-
-https://practice.geeksforgeeks.org/problems/reverse-level-order-traversal/1#
-
-public ArrayList<Integer> reverseLevelOrder(Node node) 
-    {
-        // code here
-        ArrayList<Integer> list = new ArrayList<>();
-        Stack<Node> st = new Stack<>();
-        Queue<Node> q = new ArrayDeque<>();
-        q.add(node);
-        while(q.size()>0){
-            node = q.remove();
-            if(node.right != null){
-                q.add(node.right);
-            }
-            if(node.left != null){
-                q.add(node.left);
-            }
-            st.push(node);
-        }
-        while(!st.isEmpty()){
-            node = st.pop();
-            list.add(node.data);
-        }
-        return list;
-    }
 
 
 https://leetcode.com/problems/binary-tree-level-order-traversal/
@@ -81,6 +54,35 @@ public List<List<Integer>> levelOrder(TreeNode root) {
                 }
             }
             list.add(sublist);
+        }
+        return list;
+    }
+
+
+Q2 Reverse Level Order Traversal
+
+https://practice.geeksforgeeks.org/problems/reverse-level-order-traversal/1#
+
+public ArrayList<Integer> reverseLevelOrder(Node node) 
+    {
+        // code here
+        ArrayList<Integer> list = new ArrayList<>();
+        Stack<Node> st = new Stack<>();
+        Queue<Node> q = new ArrayDeque<>();
+        q.add(node);
+        while(q.size()>0){
+            node = q.remove();
+            if(node.right != null){
+                q.add(node.right);
+            }
+            if(node.left != null){
+                q.add(node.left);
+            }
+            st.push(node);
+        }
+        while(!st.isEmpty()){
+            node = st.pop();
+            list.add(node.data);
         }
         return list;
     }
