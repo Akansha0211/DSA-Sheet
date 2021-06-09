@@ -1,0 +1,161 @@
+		Hashmap (6 June)
+
+Q1. subarray with a given target k
+https://leetcode.com/problems/subarray-sum-equals-k/
+
+Brute Force
+
+public int subarraySum(int[] nums, int k) {
+        int count = 0;
+        for(int i = 0; i<nums.length; i++){
+            int sum = 0;
+            for(int j = i; j<nums.length; j++){
+                sum+=nums[j];
+                if(sum == k){
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+(Approach 2)
+public int subarraySum(int[] nums, int k) {
+        int psa[] = new int[nums.length];
+        psa[0] = nums[0];
+        for(int i = 1; i<nums.length; i++){       
+            psa[i] = psa[i-1] + nums[i];
+        }
+        HashMap<Integer,Integer> hm = new HashMap<>();
+        hm.put(0,1);
+        int count = 0;
+        for(int i = 0; i<psa.length; i++){
+            if(hm.containsKey(psa[i]-k)){
+                count+=hm.get(psa[i]-k);
+            }
+            if(hm.containsKey(psa[i])){
+                hm.put(psa[i],hm.get(psa[i])+1);
+            }else{
+                hm.put(psa[i],1);
+            }
+        }
+        return count;
+    }
+
+
+Q2 subarray div by k.
+https://leetcode.com/problems/subarray-sums-divisible-by-k/
+
+(Approach 1)
+
+public int subarraysDivByK(int[] nums, int k) {
+        int psa[] = new int[nums.length];
+        int psam[] = new int[nums.length];
+        psa[0] = nums[0];
+        for(int i = 1; i<psa.length; i++){
+            psa[i] = psa[i-1]+nums[i];
+        }
+        for(int i = 0; i<psam.length; i++){
+            psam[i] = psa[i] % k;
+            if(psa[i]%k<0){
+                psam[i] = (psa[i]%k)+k;
+            }
+            
+        }
+        HashMap<Integer,Integer> hm = new HashMap<>();
+        hm.put(0,1);
+        int count = 0;
+        for(int i = 0; i<psam.length; i++){
+            if(hm.containsKey(psam[i])){
+                count+=hm.get(psam[i]);
+            }
+            if(hm.containsKey(psam[i])){
+                hm.put(psam[i],hm.get(psam[i])+1);
+            }else{
+                hm.put(psam[i],1);
+            }
+        }
+        return count;
+    }
+
+Q3  same difference
+
+
+Q4 subarrays with equal 1's and 0's
+https://practice.geeksforgeeks.org/problems/count-subarrays-with-equal-number-of-1s-and-0s-1587115620/1#
+
+(Approach 1)
+
+(Approach 2)
+static int countSubarrWithEqualZeroAndOne(int arr[], int n)
+    {
+        // add your code here
+        int pc0[] = new int[arr.length];
+        int pc1[] = new int[arr.length];
+        if(arr[0]==0){
+            pc0[0] = 1;
+            pc1[0] = 0;
+        }
+        if(arr[0] ==1){
+            pc0[0] = 0;
+            pc1[0] = 1;
+        }
+        for(int i = 1; i<arr.length; i++){
+            if(arr[i]!=0){
+                pc0[i] = pc0[i-1];
+                pc1[i] = pc1[i-1]+1;
+            }else{
+                pc0[i] = pc0[i-1]+1;
+                pc1[i] = pc1[i-1];
+            }
+        }
+        HashMap<Integer,Integer> hm = new HashMap<>();
+        hm.put(0,1);
+        int count = 0;
+        for(int i = 0; i<arr.length; i++){
+            if(hm.containsKey(pc0[i]-pc1[i])){
+                count+=hm.get(pc0[i]-pc1[i]);
+                hm.put(pc0[i]-pc1[i],hm.get(pc0[i]-pc1[i])+1);
+            }else{
+                hm.put(pc0[i]-pc1[i],1);
+            }
+        }
+        return count;
+    }
+
+
+Q5 Substring with equal 0,1 and 2
+https://practice.geeksforgeeks.org/problems/equal-0-1-and-23208/1#
+
+
+long getSubstringWithEqual012(String str) 
+    { 
+        // code here
+        int pc0 = 0;
+        int pc1 = 0;
+        int pc2 = 0;
+        String key = Integer.toString(pc0-pc1)+ "#" + Integer.toString(pc0-pc2);
+        HashMap<String,Integer> hm = new HashMap<>();
+        hm.put(key,1);
+        long count = 0;
+        for(int i = 0; i<str.length(); i++){
+            if(str.charAt(i)=='0'){
+                pc0++;
+            }
+            else if(str.charAt(i)=='1'){
+                pc1++;
+            }
+            else{
+                pc2++;
+            }
+            key = Integer.toString(pc0-pc1) + '#' + Integer.toString(pc0-pc2);
+            if(hm.containsKey(key)){
+                count+=hm.get(key);
+                hm.put(key,hm.get(key)+1);
+            }else{
+                hm.put(key,1);
+            }
+        }
+        return count;
+    }
+
