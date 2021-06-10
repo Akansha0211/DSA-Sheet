@@ -159,3 +159,50 @@ long getSubstringWithEqual012(String str)
         return count;
     }
 
+Q6 K closest point from origin 
+https://leetcode.com/problems/k-closest-points-to-origin/
+
+(Approach 1)
+
+ public static class Pair implements Comparable<Pair>{
+        int index;
+        int distance;
+        
+        Pair(){
+            
+        }
+        Pair(int index, int distance){
+            this.index = index;
+            this.distance = distance;
+            
+        }
+        public int compareTo(Pair o){
+            return this.distance - o.distance;
+        }
+    }
+    public int[][] kClosest(int[][] points, int k) {
+        int[][] ans = new int[k][points[0].length];
+        PriorityQueue<Pair>pq = new PriorityQueue<>(Collections.reverseOrder());
+        for(int i = 0; i<points.length; i++){
+            int x = points[i][0];
+            int y = points[i][1];
+            int dist = y*y +x*x;
+            if(pq.size()<k){
+                pq.add(new Pair(i,dist));
+            }else{
+                if(pq.peek().distance>dist){
+                    pq.remove();
+                    pq.add(new Pair(i,dist));
+                }
+            }
+        }
+        while(pq.size()>0){            
+            for(int i = 0; i<ans.length; i++){
+                Pair rem = pq.remove();
+                int index = rem.index;
+                ans[i] = points[index];
+            }
+                    
+        }
+        return ans;
+    }
