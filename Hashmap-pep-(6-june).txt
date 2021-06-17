@@ -260,4 +260,111 @@ https://leetcode.com/problems/rabbits-in-forest/
         
     }
 
-Q9 
+Q9 Array of doubled Pair
+https://leetcode.com/problems/array-of-doubled-pairs/
+
+(Approach 1)
+
+ public boolean canReorderDoubled(int[] arr) {
+        HashMap<Integer,Integer> hm = new HashMap<>();
+        for(int val : arr){
+            hm.put(val,hm.getOrDefault(val,0)+1);
+        }
+        Arrays.sort(arr);
+        for(int val : arr){
+            if(hm.get(val)>0){             
+                if(val<0 && val%2==0){
+                    if(hm.getOrDefault(val/2,0)>=1){
+                        hm.put(val,hm.get(val)-1);
+                        hm.put(val/2,hm.get(val/2)-1);
+                    }else{
+                        return false;
+                    }
+                    
+                }else{
+                    if(hm.getOrDefault(val*2,0)>=1){
+                        hm.put(val,hm.get(val)-1);
+                        hm.put(val*2,hm.get(val*2)-1);
+                    }else{
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+
+Q10. Longest consecutive sequence
+https://leetcode.com/problems/longest-consecutive-sequence/
+
+(Approach 1)
+
+ public int longestConsecutive(int[] nums) {
+        HashMap<Integer,Integer> hm = new HashMap<>();
+        int ans = 0;
+        for(int num : nums){
+            if(!hm.containsKey(num)){
+                int sp = num;
+                int ep = num;
+                if(hm.containsKey(num-1)==true){
+                    sp = num - hm.get(num-1);
+                }
+                if(hm.containsKey(num+1)==true){
+                    ep = num + hm.get(num+1);
+                }
+                int len = ep - sp +1;
+                hm.put(sp,len);
+                hm.put(ep,len);
+                
+                if(sp!=num && ep!=num){
+                    hm.put(num,len);
+                }
+                ans = Math.max(ans,len);
+            }
+        }
+        return ans;
+    }   
+
+Q11. Tricky sorting cost
+https://practice.geeksforgeeks.org/problems/morning-assembly3038/1
+
+(Approach 1)
+
+static int sortingCost(int N, int arr[]){
+        // code here
+        int res = 0;
+        int ans = 0;
+        HashMap<Integer,Integer> hm = new HashMap<>();
+        for(int val : arr){
+            
+            if(hm.containsKey(val-1)!=true){
+                hm.put(val,1);
+            }else{
+                hm.put(val, hm.get(val-1)+1);
+            }
+            ans = Math.max(ans, hm.get(val));
+            res = N - ans;
+        }
+        return res;
+    }
+
+Q12. Brick wall
+https://leetcode.com/problems/brick-wall/
+
+(Approach 1)
+
+public int leastBricks(List<List<Integer>> wall) {
+        HashMap<Integer,Integer> hm = new HashMap<>();
+        int ans = 0;
+        for(List<Integer> row: wall){
+            int sum = 0;
+            for(int i = 0; i<row.size()-1; i++){
+                sum+=row.get(i);
+                hm.put(sum, hm.getOrDefault(sum,0)+1);
+                ans = Math.max(ans, hm.get(sum));
+            }
+        }
+        return wall.size()-ans;
+    }
+
