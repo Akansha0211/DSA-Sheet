@@ -389,11 +389,14 @@ class MyHashMap {
     private int size;
     private LinkedList<Node> buckets[];
     public MyHashMap() {
-        buckets = new LinkedList[10000];
+        initbuckets(4);
+        size = 0;
+    }
+    public void initbuckets(int N){
+        buckets = new LinkedList[N];
         for(int i = 0; i<buckets.length; i++){
             buckets[i] = new LinkedList<>();
         }
-        size = 0;
     }
     
     /** value will always be non-negative. */
@@ -407,6 +410,20 @@ class MyHashMap {
             Node node = new Node(key, value);
             buckets[bi].add(node);
             size++;
+        }
+        double lambda = size * 1.0 /buckets.length;
+        if(lambda>2.0){
+            rehash();
+        }
+    }
+    private void rehash(){
+        LinkedList<Node> old[] = buckets;
+        initbuckets(old.length *2);       
+        size = 0;
+        for(int i = 0; i<old.length;i++){
+            for(Node node : old[i]){
+                put(node.key,node.value);
+            }
         }
     }
     private int hashFn(int key){
@@ -448,3 +465,122 @@ class MyHashMap {
         // return -1;
     }
 }
+
+
+Q14. Isomorphic Strings
+https://leetcode.com/problems/isomorphic-strings/
+
+(Approach 1)
+
+public boolean isIsomorphic(String s, String t) {
+        if(s.length() != t.length()){
+            return false;
+        }
+        HashMap<Character, Character> map1 = new HashMap<>();
+        HashMap<Character,Boolean> map2 = new HashMap<>();
+        for(int i = 0; i< s.length(); i++){
+            char ch1 = s.charAt(i);
+            char ch2 = t.charAt(i);
+            if(map1.containsKey(ch1)==true){
+                if(map1.get(ch1) != ch2){
+                    return false;
+                }
+                
+            }else{
+                if(map2.containsKey(ch2)==true){
+                    return false;
+                }else{
+                    map1.put(ch1,ch2);
+                    map2.put(ch2,true);
+                }
+            }
+        }
+        return true;
+    }
+
+(Approach 2)
+
+public boolean isIsomorphic(String s, String t) {
+        if(s.length()!= t.length()){
+            return true;
+        }
+        HashMap<Character,Character> map1 = new HashMap<>();
+        HashMap<Character,Character> map2 = new HashMap<>();
+        for(int i = 0; i<s.length();i++){
+            char ch1 = s.charAt(i);
+            char ch2 = t.charAt(i);
+            if(map1.containsKey(ch1)==true){
+                if(map1.get(ch1)!=ch2){
+                    return false;
+                }
+            }else{
+                if(map2.containsKey(ch2)==true){
+                    if(map2.get(ch2)!=ch1){
+                        return false;
+                    }
+                }else{
+                    map1.put(ch1,ch2);
+                    map2.put(ch2,ch1);
+                }
+            }
+        }
+        return true;
+    }
+
+Q15. Island Perimeter
+https://leetcode.com/problems/island-perimeter/
+
+(Approach 1)
+
+public int islandPerimeter(int[][] grid) {
+        int peri = 0;
+        for(int i = 0; i<grid.length; i++){
+            for(int j = 0; j<grid[i].length; j++){
+                if(grid[i][j]==1){
+                    if(i==0 || grid[i-1][j]==0)peri++;
+                    if(j==0 || grid[i][j-1]==0)peri++;
+                    if(i+1 == grid.length || grid[i+1][j]==0)peri++;
+                    if(j+1 == grid[0].length || grid[i][j+1]==0)peri++;
+                }
+            }
+        }
+        return peri;
+    }
+
+(Approach 2)
+
+public int islandPerimeter(int[][] grid) {
+        
+        int islands = 0;
+        int neighbours = 0;
+        for(int i = 0; i<grid.length; i++){
+            for(int j = 0; j<grid[i].length; j++){
+                if(grid[i][j]==1){
+                    islands++;
+                    if(j<grid[i].length-1 && grid[i][j+1] == 1){
+                        neighbours++;
+                    }
+                    if(i<grid.length-1 && grid[i+1][j]==1){
+                        neighbours++;
+                    }
+                }
+            }
+        }
+        return 4*islands - 2*neighbours;
+    }
+
+Q16. Bulb Switcher
+https://leetcode.com/problems/bulb-switcher/
+
+(Approach 1)
+
+ public int bulbSwitch(int n) {
+        int i = 1;
+        int count = 0;
+        while(i*i<=n){
+            i++;
+            count++;
+        }
+        return count;
+    }
+
