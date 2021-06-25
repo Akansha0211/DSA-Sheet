@@ -749,5 +749,82 @@ public static int count4Divisibiles(int arr[], int n )
         return ans;
     }
 
-Q20. Length of largest subarray with continuous elements.
+Q20. Length of largest subarray with continuous elements
+
+(Approach 1)duplicates allowed
+
+	public static int solution(int[] arr) {
+		
+		int ans = 0;
+		for(int i = 0; i<arr.length-1; i++){
+		    int max = arr[i];
+		    int min = arr[i];
+		    HashSet<Integer> set = new HashSet<>();
+		    set.add(arr[i]);
+		    for(int j = i+1; j<arr.length; j++){
+		        if(set.contains(arr[j])){
+		            break;
+		        }
+		        set.add(arr[j]);
+		        min = Math.min(min,arr[j]);
+		        max = Math.max(max,arr[j]);
+		        if(max -min == j-i){
+		            int length = j - i+1;
+		            if(length> ans){
+		                ans = length;
+		            }
+		        }
+		    }
+		}
+		return ans;
+	}
+
+Q21. Insert Delete GetRandom O(1)
+https://leetcode.com/problems/insert-delete-getrandom-o1/
+
+class RandomizedSet {
+    HashMap<Integer,Integer> map;
+    ArrayList<Integer> list;
+    java.util.Random rand = new java.util.Random();
+    /** Initialize your data structure here. */
+    public RandomizedSet() {
+        map = new HashMap<>();
+        list = new ArrayList<>();
+    }
+    
+    /** Inserts a value to the set. Returns true if the set did not already contain the specified element. */
+    public boolean insert(int val) {
+        if(map.containsKey(val)){
+            return false;
+        }
+        map.put(val, list.size());
+        list.add(val);
+        return true;
+    }
+    
+    /** Removes a value from the set. Returns true if the set contained the specified element. */
+    public boolean remove(int val) {
+        if(!map.containsKey(val)){
+            return false;
+        }
+        if(map.get(val)<list.size()-1){
+            int last_el = list.get(list.size()-1);
+            list.set(map.get(val), last_el);
+            map.put(last_el,map.get(val));
+        }
+        map.remove(val);
+        list.remove(list.size()-1);
+        return true;
+    }
+    
+    /** Get a random element from the set. */
+    public int getRandom() {
+        // int last = list.size()-1;
+        // return list.get((int)Math.random()*last);
+        return list.get( rand.nextInt(list.size()) );
+    }
+}
+
+
+
 
