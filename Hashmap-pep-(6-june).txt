@@ -826,5 +826,200 @@ class RandomizedSet {
 }
 
 
+Q22. Find All Anagrams in a String
+https://leetcode.com/problems/find-all-anagrams-in-a-string/
+
+ public List<Integer> findAnagrams(String s, String p) {
+        List<Integer> ans = new ArrayList<>();
+        if(p.length()>s.length()){
+            return ans;
+        }
+        HashMap<Character,Integer> pmap = new HashMap<>();
+        HashMap<Character,Integer> smap = new HashMap<>();
+        int matchedCount = 0;
+        for(int i = 0; i<p.length(); i++){
+            char ch = p.charAt(i);
+            pmap.put(ch, pmap.getOrDefault(ch,0)+1);
+        }
+        for(int i = 0; i<p.length(); i++){
+            char ch = s.charAt(i);
+            smap.put(ch, smap.getOrDefault(ch,0)+1);
+            if(pmap.containsKey(ch)==true){
+                if(smap.get(ch)<=pmap.get(ch)){
+                    matchedCount++;
+                }
+            }
+        }
+        int i = 0;
+        int j = p.length();
+        
+        while(j<s.length()){
+            if(matchedCount == p.length()){
+                ans.add(i);
+            }
+            //acquire
+            char cha = s.charAt(j);
+            smap.put(cha,smap.getOrDefault(cha,0)+1);
+            if(pmap.containsKey(cha)==true){
+                if(smap.get(cha)<=pmap.get(cha)){
+                    matchedCount++;
+                }
+            }
+            //release
+            char chr = s.charAt(i); // j-p.length()
+            if(smap.get(chr) == 1){
+                smap.remove(chr);
+            }else{
+                smap.put(chr, smap.get(chr)-1);
+            }
+            if(pmap.containsKey(chr)==true){
+                if(smap.containsKey(chr)==true){
+                    if(smap.get(chr)<pmap.get(chr)){
+                        matchedCount--;
+                    }
+                }
+                else if(!smap.containsKey(chr)){
+                    matchedCount--;
+                }
+            }
+            i++;
+            j++;
+        }
+        if(matchedCount == p.length()){
+                ans.add(i);
+        }
+        return ans;
+    }
+
+Q23. Anagram Palindrome 
+https://practice.geeksforgeeks.org/problems/anagram-palindrome4720/1#
+
+(Approach 1)
+
+int isPossible (String S)
+    {
+        // your code here
+        HashMap<Character,Integer> map = new HashMap<>();
+        for(int i = 0; i<S.length(); i++){
+            char ch = S.charAt(i);
+            map.put(ch,map.getOrDefault(ch,0)+1);
+        }
+        int odd = 0;
+        int even = 0;
+        int n = S.length()/2;
+        for(Character ch : map.keySet()){
+            if(map.get(ch)%2 == 0){
+                even++;
+            }else{
+                odd++;
+            }
+            
+        }
+        if(odd>1){
+            return 0;
+        }
+        return 1;
+    }
+
+Q24. Group Anagram
+https://leetcode.com/problems/group-anagrams/
+
+(Approach 1)
+
+public List<List<String>> groupAnagrams(String[] strs) {
+        List<List<String>> ans = new ArrayList<>();
+        HashMap<String,ArrayList<String>> bmap = new HashMap<>();
+        for(String str : strs){
+            int freq[] = new int[26];
+            String key = "";
+            for(int i = 0;i<str.length(); i++){
+                char ch = str.charAt(i);
+                freq[ch - 'a']++;
+                
+            }
+            StringBuilder sb = new StringBuilder();
+            for(int i = 0; i<freq.length; i++){
+                sb.append(freq[i]).append("_");
+            } 
+            key = sb.toString();
+            
+            if(bmap.containsKey(key)){
+                bmap.get(key).add(str);
+            }else{
+                ArrayList<String> list = new ArrayList<>();
+                list.add(str);
+                bmap.put(key,list);
+            }
+            
+        }
+        for(String s : bmap.keySet()){
+            ans.add(bmap.get(s));
+        }
+        return ans;
+    }
+
+Q25. Find Anagrams Mapping
+https://www.cnblogs.com/grandyang/p/8570939.html
+
+public static int[] anagramMappings(int[] arr1, int[] arr2) {
+		// write your code here
+		int ans[] = new int[6];
+        HashMap<Integer, ArrayList<Integer>> map = new HashMap<>();
+        for(int i = 0; i<arr2.length; i++){
+            int key = arr2[i];
+            ArrayList<Integer> val;
+            if(!map.containsKey(key)){
+                val = new ArrayList<>();
+                val.add(i);
+                map.put(key,val);
+            }else{
+                val = map.get(key);
+                val.add(i);
+                // map.put(key,map.get(key).add(i));
+            }
+        }
+        for(int i = 0; i<arr1.length; i++){
+            int key = arr1[i];
+            // if(map.containsKey(key)){
+                
+            // }
+            ArrayList<Integer> list = map.get(key);
+            int val = list.remove(list.size()-1);
+            ans[i] = val;
+        }
+		return ans;
+	}
+
+Q26. K-anagrams
+https://practice.geeksforgeeks.org/problems/check-if-two-strings-are-k-anagrams-or-not/1
+
+(Approach 1)
+
+  boolean areKAnagrams(String s1, String s2, int k)
+     {
+      //add code here.
+      if(s1.length() != s2.length()){
+          return false;
+      }
+      HashMap<Character,Integer> map = new HashMap<>();
+      for(int i = 0; i<s1.length(); i++){
+          char ch = s1.charAt(i);
+          map.put(ch,map.getOrDefault(ch,0)+1);
+      }
+      for(int i = 0; i<s2.length();i++){
+          char ch = s2.charAt(i);
+          if(map.getOrDefault(ch,0)>0){
+              map.put(ch,map.get(ch)-1);
+          }
+      }
+      int count = 0;
+      for(char ch : map.keySet()){
+          count+=map.get(ch);
+      }
+      if(count>k){
+          return false;
+      }
+      return true;
+     }
 
 
