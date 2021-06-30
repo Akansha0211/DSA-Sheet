@@ -234,6 +234,156 @@ public int findMaxConsecutiveOnes(int[] nums) {
         return max_count;
     }
 
+		
+		HashMap(10 June)
+
+Q8. Minimum Number of Refueling Stops
+https://leetcode.com/problems/minimum-number-of-refueling-stops/
+
+(Approach 1)
+
+public int minRefuelStops(int target, int startFuel, int[][] stations) {
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+        int ans = 0;
+        if(startFuel >= target){
+            return 0;
+        }
+        for(int[] station : stations){
+            int location = station[0];
+            int gas = station[1];            
+            while (startFuel < location) {
+				if (pq.isEmpty()) return -1;
+				startFuel += pq.poll();
+				ans++;
+			}
+			 pq.add(gas);
+        }       
+        while(startFuel < target){
+            if(pq.isEmpty()){
+                return -1;
+            }
+            startFuel+=pq.poll();
+            ans++;           
+        }
+        return ans;        
+    }
+
+Q9. X of a Kind in a Deck of Cards
+https://leetcode.com/problems/x-of-a-kind-in-a-deck-of-cards/
+
+(Approach 1)
+
+public boolean hasGroupsSizeX(int[] deck) {
+        HashMap<Integer,Integer> map = new HashMap<>();
+        int res = 0;
+        for(int el : deck){
+            map.put(el, map.getOrDefault(el,0)+1);
+        }
+        for(Integer key : map.keySet()){
+            res = gcd(map.get(key), res);
+        }
+        if(res>=2){
+            return true;
+        }
+        return false;
+    }
+    public int gcd(int dividend, int divisor){
+        if(divisor==0){
+            return dividend;
+        }
+        while(dividend % divisor != 0){
+            int rem = dividend % divisor;
+            dividend = divisor;
+            divisor = rem;
+        }
+        return divisor;
+    }
+
+Q10. Check Arithmetic Progression
+https://practice.geeksforgeeks.org/problems/check-arithmetic-progression1842/1#
+
+(Approach 1)
+boolean checkIsAP(int arr[] ,int n)
+    {
+        // code here
+        if(arr.length<=1){
+            return true;
+        }
+        HashSet<Integer> set = new HashSet<>();
+        int max = Integer.MIN_VALUE;
+        int min = Integer.MAX_VALUE;
+        boolean flag = false;
+        for(int i : arr){
+            min = Math.min(i, min);
+            max = Math.max(i,max);
+            if(set.contains(i)==true){
+                flag = true;
+            }
+            set.add(i);
+        }
+        int common_dif = (max - min)/(n-1);
+        if(flag == true && set.size()>1){
+            return false;
+        }
+        
+        int i = min;
+        int j = max;
+        while(i<j){
+            int next = i + common_dif;
+            if(set.contains(next) == false){
+                return false;
+            }
+             i = next;
+        }
+        return true;
+    }
+
+Q10. Potions (Hard Version)
+https://codeforces.com/contest/1526/problem/C2
+
+(Approach 1)
+
+import java.util.PriorityQueue;
+import java.util.Scanner;
+
+public class Potions {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        long[] arr = new long[n];
+        for (int i = 0; i<n; i++){
+            arr[i] = sc.nextInt();
+        }
+        PriorityQueue<Long> pq = new PriorityQueue<>();
+        int count = 0;
+        long pos = 0;
+        long neg = 0;
+        for (int i = 0; i<arr.length; i++){
+            if(arr[i]>=0){
+                pos+=arr[i];
+                count++;
+            }else{
+                if(pos >= neg + Math.abs(arr[i])){
+                    pq.add(arr[i]);
+                    neg += Math.abs(arr[i]);
+                }else{
+                    if(pq.size()==0){
+                        continue;
+                    }
+                    long temp = Math.abs(pq.peek());
+                    if(Math.abs(arr[i])<temp){
+                        pq.remove();
+                        pq.add(arr[i]);
+                        neg = neg - temp + Math.abs(arr[i]);
+                    }
+                }
+            }
+        }
+        System.out.println(count+ pq.size());
+    }
+}
+
+
 
 		HashMap(12 June)
 
