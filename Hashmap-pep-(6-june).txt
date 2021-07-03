@@ -95,6 +95,29 @@ public int subarraysDivByK(int[] nums, int k) {
         return count;
     }
 
+(Without taking extra space)
+
+public int subarraysDivByK(int[] nums, int k) {
+        HashMap<Integer,Integer> map = new HashMap<>();
+        map.put(0,1);
+        int ps = 0;
+        int psmodk = 0;
+        int count = 0;
+        for(int i =0; i<nums.length; i++){
+            ps= ps + nums[i];
+            psmodk = ps % k;
+            if(psmodk<0){
+                psmodk = psmodk +k;
+            }
+            if(map.containsKey(psmodk)==true){
+                count+=map.get(psmodk);
+            }
+            map.put(psmodk,map.getOrDefault(psmodk,0)+1);
+        }
+        return count;
+    }
+
+
 Q3  same difference
 
 
@@ -139,6 +162,32 @@ static int countSubarrWithEqualZeroAndOne(int arr[], int n)
         }
         return count;
     }
+
+(Without extra space)
+
+static int countSubarrWithEqualZeroAndOne(int arr[], int n)
+    {
+        // add your code here
+        HashMap<Integer,Integer> map = new HashMap<>();
+        map.put(0,1);
+        int pc0 = 0;
+        int pc1 = 0;
+        int count = 0;
+        for(int i = 0; i<arr.length; i++){
+            if(arr[i] == 0){
+                pc0++;
+            }
+            if(arr[i]==1){
+                pc1++;
+            }
+            if(map.containsKey(pc0-pc1)){
+                count += map.get(pc0-pc1);
+            }
+            map.put(pc0-pc1, map.getOrDefault(pc0-pc1,0)+1);
+        }
+        return count;
+    }
+
 
 
 Q5 Substring with equal 0,1 and 2
