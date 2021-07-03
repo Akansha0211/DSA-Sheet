@@ -42,6 +42,23 @@ public int subarraySum(int[] nums, int k) {
         return count;
     }
 
+(Without taking extra space)
+
+public int subarraySum(int[] nums, int k) {
+        HashMap<Integer,Integer> map = new HashMap<>();
+        map.put(0,1);
+        int count = 0;
+        int prefix = 0;
+        for(int i = 0; i<nums.length; i++){
+            prefix = prefix + nums[i];
+            if(map.containsKey(prefix-k)==true){
+                count+=map.get(prefix-k);
+            }
+            map.put(prefix, map.getOrDefault(prefix,0)+1);
+        }
+        return count;
+    }
+
 
 Q2 subarray div by k.
 https://leetcode.com/problems/subarray-sums-divisible-by-k/
