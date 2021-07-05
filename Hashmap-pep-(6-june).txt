@@ -476,6 +476,24 @@ https://leetcode.com/problems/rabbits-in-forest/
         
     }
 
+(or simply)
+
+public int numRabbits(int[] answers) {
+        HashMap<Integer,Integer> map = new HashMap<>();
+        int ans = 0;
+        for(int i =0; i<answers.length; i++){
+            map.put(answers[i], map.getOrDefault(answers[i],0)+1);
+        }
+        for(Integer val : map.keySet()){            
+            int group = (int)Math.ceil(map.get(val)*1.0/(val+1));
+            
+            ans+=group*(val+1);
+        }
+        return ans;
+        
+    }
+
+
 Q9 Array of doubled Pair
 https://leetcode.com/problems/array-of-doubled-pairs/
 
