@@ -225,6 +225,26 @@ long getSubstringWithEqual012(String str)
         return count;
     }
 
+Q6 Kth largest element in an array(using Heaps)
+
+(Approach 1)
+
+public int findKthLargest(int[] nums, int k) {
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        for(int i = 0; i<nums.length; i++){
+            if(pq.size()<k){
+                pq.add(nums[i]);
+            }else{
+                if(pq.peek()<nums[i]){
+                    pq.remove();
+                    pq.add(nums[i]);
+                }
+            }
+        }
+        return pq.peek();
+    }
+
+
 Q6 K closest point from origin 
 https://leetcode.com/problems/k-closest-points-to-origin/
 
@@ -557,7 +577,7 @@ https://leetcode.com/problems/longest-consecutive-sequence/
                 ans = Math.max(ans,len);
             }
         }
-        return ans;
+        return ans;su
     }   
 
 Q11. Tricky sorting cost
