@@ -1388,3 +1388,43 @@ public static String getKey(String str){
     }
 
 
+Q32 Find Median from Data Stream
+https://leetcode.com/problems/find-median-from-data-stream/
+
+class MedianFinder {
+
+    /** initialize your data structure here. */
+    PriorityQueue<Integer> max;
+    PriorityQueue<Integer> min;
+    
+    public MedianFinder() {
+        max = new PriorityQueue<>(Collections.reverseOrder());
+        min = new PriorityQueue<>();
+    }
+    
+    public void addNum(int num) {
+        if(min.size() > 0 && num > min.peek()){
+            min.add(num);
+        }else{
+            max.add(num);
+        }
+        //balance 
+        if(max.size()-min.size() == 2){
+            min.add(max.remove());
+        }else if(min.size()-max.size() == 2){
+            max.add(min.remove());
+        }
+    }
+    
+    public double findMedian() {
+        if(max.size()== min.size()){
+            return (max.peek()+min.peek())/2.0;
+        }
+        else if(max.size()>min.size()){
+            return (max.peek())/1.0;
+        }
+        else{
+            return (min.peek())/1.0;
+        }
+    }
+}
