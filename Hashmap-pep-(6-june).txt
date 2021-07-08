@@ -1083,67 +1083,58 @@ class RandomizedSet {
 Q22. Find All Anagrams in a String
 https://leetcode.com/problems/find-all-anagrams-in-a-string/
 
- public List<Integer> findAnagrams(String s, String p) {
-        List<Integer> ans = new ArrayList<>();
-        if(p.length()>s.length()){
-            return ans;
-        }
-        HashMap<Character,Integer> pmap = new HashMap<>();
-        HashMap<Character,Integer> smap = new HashMap<>();
-        int matchedCount = 0;
+
+public List<Integer> findAnagrams(String s, String p) {
+        ArrayList<Integer> list = new ArrayList<>();
+        if(p.length()> s.length()) return list;
+        HashMap<Character,Integer> map_p = new HashMap<>();
+        HashMap<Character,Integer> map_s = new HashMap<>();
         for(int i = 0; i<p.length(); i++){
             char ch = p.charAt(i);
-            pmap.put(ch, pmap.getOrDefault(ch,0)+1);
+            map_p.put(ch,map_p.getOrDefault(ch,0)+1);
         }
-        for(int i = 0; i<p.length(); i++){
-            char ch = s.charAt(i);
-            smap.put(ch, smap.getOrDefault(ch,0)+1);
-            if(pmap.containsKey(ch)==true){
-                if(smap.get(ch)<=pmap.get(ch)){
-                    matchedCount++;
-                }
-            }
-        }
-        int i = 0;
-        int j = p.length();
+        int matchedCount = 0;
         
-        while(j<s.length()){
-            if(matchedCount == p.length()){
-                ans.add(i);
+        for(int i  = 0; i<p.length(); i++){
+            char ch = s.charAt(i);
+            map_s.put(ch,map_s.getOrDefault(ch,0)+1);
+            if(map_s.getOrDefault(ch,0)<=map_p.getOrDefault(ch,0)){
+                matchedCount++;
+                
             }
+        }
+        
+        if(matchedCount == p.length()){
+            list.add(0);
+        }
+        
+        int i =0;
+        int j = p.length() -1;
+        // int matchedCount = 0;
+        while(j<s.length()-1){            
             //acquire
-            char cha = s.charAt(j);
-            smap.put(cha,smap.getOrDefault(cha,0)+1);
-            if(pmap.containsKey(cha)==true){
-                if(smap.get(cha)<=pmap.get(cha)){
-                    matchedCount++;
-                }
+            j++;
+            char ch1 = s.charAt(j);
+            map_s.put(ch1,map_s.getOrDefault(ch1,0)+1);
+            if(map_s.getOrDefault(ch1,0)<=map_p.getOrDefault(ch1,0)){
+                matchedCount++;
             }
             //release
-            char chr = s.charAt(i); // j-p.length()
-            if(smap.get(chr) == 1){
-                smap.remove(chr);
-            }else{
-                smap.put(chr, smap.get(chr)-1);
-            }
-            if(pmap.containsKey(chr)==true){
-                if(smap.containsKey(chr)==true){
-                    if(smap.get(chr)<pmap.get(chr)){
-                        matchedCount--;
-                    }
-                }
-                else if(!smap.containsKey(chr)){
-                    matchedCount--;
-                }
-            }
+            char ch2 = s.charAt(i);
+            map_s.put(ch2,map_s.getOrDefault(ch2,0)-1);
             i++;
-            j++;
+            if(map_s.getOrDefault(ch2,0)< map_p.getOrDefault(ch2,0)){
+                matchedCount--;
+            }
+            if(matchedCount == p.length()){
+                list.add(i);
+            }
         }
-        if(matchedCount == p.length()){
-                ans.add(i);
-        }
-        return ans;
+        
+        return list;
     }
+
+ 
 
 Q23. Anagram Palindrome 
 https://practice.geeksforgeeks.org/problems/anagram-palindrome4720/1#
