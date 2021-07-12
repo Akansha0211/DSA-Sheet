@@ -1132,9 +1132,7 @@ public List<Integer> findAnagrams(String s, String p) {
         }
         
         return list;
-    }
-
- 
+    } 
 
 Q23. Anagram Palindrome 
 https://practice.geeksforgeeks.org/problems/anagram-palindrome4720/1#

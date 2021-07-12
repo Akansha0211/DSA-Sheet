@@ -1,0 +1,95 @@
+		 Searching and Sorting (10th July)
+
+Q1 Median of Two Sorted Arrays
+https://leetcode.com/problems/median-of-two-sorted-arrays/
+
+(Approach 1)
+
+public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        if(nums1.length > nums2.length){
+            int[] temp = nums1;
+            nums1 = nums2;
+            nums2 = temp;
+        }
+        int lo = 0;
+        int hi = nums1.length;
+        int totalLength = nums1.length + nums2.length + 1;
+        int half = totalLength / 2;
+        while(lo<=hi){
+            int mid1 = lo + (hi-lo)/2;
+            int mid2 = half - mid1;
+            int nums1Left = getMax(nums1,mid1);
+            int nums1Right = getMin(nums1,mid1);
+            int nums2Left = getMax(nums2,mid2);
+            int nums2Right = getMin(nums2,mid2);
+            if(nums1Left <= nums2Right && nums2Left <= nums1Right){
+                //even 
+                if(totalLength %2 != 0){
+                    return (Math.max(nums1Left, nums2Left) + Math.min(nums1Right, nums2Right))/2.0;
+                }
+                return Math.max(nums1Left,nums2Left);
+            }
+            if(nums1Left > nums2Right){
+                hi = mid1 - 1;
+            }else{
+                lo = mid1 + 1;
+            }
+        }
+        return -1;
+    }
+    public int getMax(int[] nums, int mid){
+        if(mid<=0  || mid > nums.length){
+            return Integer.MIN_VALUE;
+        }else{
+            return nums[mid-1];
+        }
+    }
+    public int getMin(int[] nums, int mid){
+        if(mid<=-1 || mid >= nums.length){
+            return Integer.MAX_VALUE;
+        }else{
+            return nums[mid];
+        }
+    }
+
+Q2 Capacity to ship within D days
+https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/
+
+(Approach 1)
+
+public int shipWithinDays(int[] weights, int days) {
+        int max = 0;
+        int sum = 0;
+        for(int val : weights){
+            sum +=val;
+            max = Math.max(max,val);
+        }
+        int lo = max;
+        int hi = sum;
+        int ans = 0;
+        while(lo<=hi){
+            int mid = lo + (hi - lo)/2;
+            int req_days = 1;
+            int wt = 0;
+            for(int val : weights){
+                if(wt+val <= mid){
+                    wt += val;
+                }else{
+                    wt = val;
+                    req_days++;
+                }
+            }
+            if(req_days <= days){
+                ans = mid;
+                hi  = mid -1;
+            }else{
+                lo = mid +1;
+            }
+        }
+        return ans;
+    }
+
+Q3 Koko Eating Bananas
+https://leetcode.com/problems/koko-eating-bananas/
+
+(Approach 1)
