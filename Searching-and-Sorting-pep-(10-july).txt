@@ -93,3 +93,28 @@ Q3 Koko Eating Bananas
 https://leetcode.com/problems/koko-eating-bananas/
 
 (Approach 1)
+
+public int minEatingSpeed(int[] piles, int h) {
+        int max = 0;
+        for(int val : piles){
+            max = Math.max(max,val);
+        }
+        int lo = 1;
+        int hi = max;
+        int ans = 0;
+        while(lo<=hi){
+            int mid = lo + (hi - lo)/2;
+            int reqHrs = 0;
+            for(int val : piles){
+		int valHr = (int)Math.ceil((val*1.0)/mid);
+                reqHrs+=valHr;
+            }
+            if(reqHrs <= h){
+                ans = mid;
+                hi = mid -1;
+            }else{
+                lo = mid +1;
+            }
+        }
+        return ans;
+    }
