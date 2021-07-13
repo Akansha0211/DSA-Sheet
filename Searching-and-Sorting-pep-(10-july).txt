@@ -186,3 +186,40 @@ public int paint(int A, int B, ArrayList<Integer> C) {
         
     }
 
+Q6 Split Array Largest Sum
+https://leetcode.com/problems/split-array-largest-sum/
+
+(Approach 1)
+
+public int splitArray(int[] nums, int m) {
+        int max = 0;
+        int sum = 0;
+        for(int val : nums){
+            max = Math.max(max,val);
+            sum += val;
+        }
+        int lo = max;
+        int hi = sum;
+        int ans = 0;
+        while(lo <= hi){
+            int mid = lo + (hi -lo)/2;
+            int reqM = 1;
+            int subarrSum = 0;
+            for(int val : nums){
+                if(subarrSum + val <=mid){
+                    subarrSum += val;
+                }else{
+                    subarrSum = val;
+                    reqM++;
+                }
+            }
+            if(reqM <= m){
+                ans = mid;
+                hi = mid -1;
+            }else{
+                lo = mid +1;
+            }
+        }
+        return ans;
+    }
+
