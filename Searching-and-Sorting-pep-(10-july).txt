@@ -118,3 +118,71 @@ public int minEatingSpeed(int[] piles, int h) {
         }
         return ans;
     }
+
+Q4 Find the Smallest Divisor Given a Threshold
+https://leetcode.com/problems/find-the-smallest-divisor-given-a-threshold/
+
+(Approach 1)
+
+public int smallestDivisor(int[] nums, int threshold) {
+        int max = 0;
+        for(int num : nums){
+            max = Math.max(num,max);
+        }
+        int lo = 1;
+        int hi = max;
+        int ans = 0;
+        while(lo <= hi){
+            int mid = lo + (hi - lo)/2;
+            int valchk = 0;
+            for(int num : nums){
+                valchk += (int)Math.ceil((num*1.0)/mid);
+            }
+            if(valchk <= threshold){
+                ans = mid;
+                hi = mid -1;
+            }else{
+                lo = mid + 1 ;
+            }
+        }
+        return ans;
+    }
+
+Q5 Painter's Partition Problem
+https://www.interviewbit.com/problems/painters-partition-problem/#
+
+(Approach 1)
+
+public int paint(int A, int B, ArrayList<Integer> C) {
+        int max = 0;
+        int sum = 0;
+        for(int val : C){
+            max = Math.max(val,max);
+            sum += val;
+        }
+        int lo = max;
+        int hi = sum;
+        long ans = 0;
+        while(lo<=hi){
+            int mid = lo + (hi -lo)/2;
+            int sumchk = 0;
+            int reqP = 1;
+            for(int val : C){
+                if(sumchk + val <= mid){
+                    sumchk += val;
+                }else{
+                    sumchk = val;
+                    reqP++;
+                }
+            }
+            if(reqP <= A){
+                ans = mid;
+                hi = mid -1;
+            }else{
+                lo = mid +1;
+            }
+        }
+        return (int)(ans*B % 10000003);
+        
+    }
+
