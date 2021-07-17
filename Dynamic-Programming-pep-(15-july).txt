@@ -1,0 +1,53 @@
+		DP (15th July)
+
+Q1 Longest Increasing Subsequence
+https://leetcode.com/problems/longest-increasing-subsequence/
+
+(Approach 1)
+
+public int lengthOfLIS(int[] nums) {
+        int n = nums.length;
+        int[] dp = new int[n];
+        int overall_max = 0;
+        for(int i = 0; i<n; i++){
+            int max = 0;
+            for(int j = 0; j<i; j++){
+                if(nums[j]<nums[i]){
+                    max = Math.max(max,dp[j]);
+                }
+            }
+            dp[i] = max + 1;
+            overall_max = Math.max(overall_max,dp[i]);
+        }
+        
+        return overall_max;
+    }
+
+(Approach 2) 
+
+public int lengthOfLIS(int[] nums) {
+        int n = nums.length;
+        int[] dP = new int[n];
+        int ans = 0;
+        for(int num : nums){
+            int i = 0;
+            int j = ans;
+            while(i<j){
+                int mid = i + (j - i)/2;
+                if(dP[mid]<num){
+                    i = mid + 1;
+                }else{
+                    j = mid;
+                }
+            }
+            dP[i] = num;
+            if(i == ans){
+                ans++;
+            }
+        }
+        return ans;
+    }
+
+
+
+
