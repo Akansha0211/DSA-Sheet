@@ -27,20 +27,20 @@ public int lengthOfLIS(int[] nums) {
 
 public int lengthOfLIS(int[] nums) {
         int n = nums.length;
-        int[] dP = new int[n];
+        int[] dp = new int[n];
         int ans = 0;
         for(int num : nums){
             int i = 0;
             int j = ans;
             while(i<j){
                 int mid = i + (j - i)/2;
-                if(dP[mid]<num){
+                if(dp[mid]<num){
                     i = mid + 1;
                 }else{
                     j = mid;
                 }
             }
-            dP[i] = num;
+            dp[i] = num;
             if(i == ans){
                 ans++;
             }
@@ -50,4 +50,128 @@ public int lengthOfLIS(int[] nums) {
 
 
 
+Q2 Building Bridges
+https://www.hackerrank.com/contests/mtech-cse-2016-practice-test-2/challenges/building-bridges
+
+(Approach 1)
+
+
+
+Q3 Russian Doll Envelopes
+https://leetcode.com/problems/russian-doll-envelopes/
+
+class Solution {
+    static class Pair implements Comparable<Pair>{
+        int width;
+        int height;
+        Pair(int width, int height){
+            this.width = width;
+            this.height = height;
+        }
+        public int compareTo(Pair o){
+            return this.width - o.width;
+        }
+    }
+    public int maxEnvelopes(int[][] envelopes) {
+        int n = envelopes.length;
+        Pair[] envlps = new Pair[n];
+        for(int i = 0; i<n ; i++){
+            Pair pair = new Pair(envelopes[i][0], envelopes[i][1]);
+            envlps[i] = pair;
+        }
+        Arrays.sort(envlps);
+        int[] dP = new int[n];
+        int omax = 0;
+        for(int i = 0; i<dP.length; i++){
+            int max = 0;
+            for(int j = 0; j<i; j++){
+                if(envlps[j].height < envlps[i].height && envlps[j].width < envlps[i].width){
+                    if(dP[j]>max){
+                        max = dP[j];
+                    }
+                }
+            }
+            dP[i] = max + 1;
+            if(dP[i]>omax){
+                omax = dP[i];
+            }
+        }
+        return omax;
+    }
+}
+
+
+
+		17th July
+
+Q1 Buy and sell stocks (single transaction allowed) 
+https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
+
+(Approach 1)
+
+public int maxProfit(int[] prices) {
+        int lsf = Integer.MAX_VALUE; // Least price
+        int profit = 0; // Profit if sold today
+        int overall_profit = 0;
+        for(int i = 0; i<prices.length; i++){
+            if(prices[i] < lsf){
+                lsf = prices[i];
+            }
+            profit = prices[i] - lsf;
+            if(profit > overall_profit){
+                overall_profit = profit;
+            }
+        }
+        return overall_profit;
+    }
+
+Q2 Buy and Sell Stocks (Infinite Transactions)
+https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/
+
+(Approach 1)
+
+public int maxProfit(int[] prices) {
+        int buy_date = 0;
+        int sell_date = 0;
+        int profit = 0;
+        for(int i = 1; i<prices.length; i++){
+            if(prices[i] >= prices[i-1]){
+                sell_date = i;
+            }else{
+                profit += prices[sell_date] - prices[buy_date];
+                buy_date = sell_date = i;
+            }
+        }
+        profit += prices[sell_date] - prices[buy_date];
+        return profit;
+    }
+
+Q3 Best Time to buy and sell stocks With Transaction Fee
+https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/
+
+(Approach 1)
+
+public int maxProfit(int[] prices, int fee) {
+        int obp = -prices[0];
+        int osp = 0;
+        for(int i = 1; i< prices.length; i++){
+            int nbp = 0;
+            int nsp = 0;
+            if(osp - prices[i] > obp){
+                nbp = osp - prices[i];
+            }else{
+                nbp = obp;
+            }
+            if(obp + prices[i] - fee > osp){
+                nsp = obp + prices[i] - fee;
+            }else{
+                nsp = osp;
+            }
+            obp = nbp;
+            osp = nsp;
+        }
+        return osp;
+    }
+
+Q4 
 
