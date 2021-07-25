@@ -1,0 +1,104 @@
+		DP(22 July)
+
+Q1 House Robber
+https://leetcode.com/problems/house-robber/
+
+Q2 Coin Change
+https://leetcode.com/problems/coin-change-2/
+
+
+Q3 Distinct Subsequence
+https://leetcode.com/problems/distinct-subsequences/
+
+		DP(24 July)
+
+Q4 Longest Common Subsequence
+https://leetcode.com/problems/longest-common-subsequence/
+
+(Approach 1)- DP
+public int longestCommonSubsequence(String text1, String text2) {
+        int[][] dp = new int[text1.length()+1][text2.length()+1];
+        for (int[] row : dp){
+            Arrays.fill(row,-1);
+        }
+        int ans = solution(text1,text2,text1.length(),text2.length(),dp);
+        return ans;
+    }
+    public static int solution(String s, String t , int n , int m, int[][]dp){
+        if (n==0 || m==0){
+            return 0;
+        }
+        if (dp[n][m]!=-1){
+            return dp[n][m];
+        }
+        if (s.charAt(n-1) == t.charAt(m-1)){
+            return dp[n][m] = 1 + solution(s,t,n-1,m-1,dp);
+        }else{
+            int choice1 = solution(s,t,n,m-1,dp);
+            int choice2 = solution(s,t,n-1,m,dp);
+
+            return dp[n][m] =  Math.max(choice1,choice2);
+        }
+    }
+
+Q5 Uncrossed Lines
+https://leetcode.com/problems/uncrossed-lines/
+
+(Approach 1)
+public int maxUncrossedLines(int[] nums1, int[] nums2) {
+        int[][] dp = new int[nums1.length+1][nums2.length+1];
+        for (int[] row : dp){
+            Arrays.fill(row,-1);
+        }
+        int ans = solution(nums1,nums2,nums1.length,nums2.length,dp);
+        return ans;
+    }
+    public static int solution(int[]s, int[]t , int n , int m, int[][]dp){
+        if (n==0 || m==0){
+            return 0;
+        }
+        if (dp[n][m]!=-1){
+            return dp[n][m];
+        }
+        if (s[n-1] == t[m-1]){
+            return dp[n][m] = 1 + solution(s,t,n-1,m-1,dp);
+        }else{
+            int choice1 = solution(s,t,n,m-1,dp);
+            int choice2 = solution(s,t,n-1,m,dp);
+
+            return dp[n][m] =  Math.max(choice1,choice2);
+        }
+    }
+
+
+Q6 Minimum Path Sum
+https://leetcode.com/problems/minimum-path-sum/
+
+(Approach 1)
+
+public int minPathSum(int[][] grid) {
+        int[][] dp = new int[grid.length][grid[0].length];
+        int ans = solution(grid,0,0,grid.length-1,grid[0].length-1,dp);
+        return ans;
+    }
+    public static int solution(int[][]grid , int cr, int cc, int er, int ec, int[][]dp){
+        if (cc>ec || cr>er){
+            return Integer.MAX_VALUE;
+        }
+        if (cc == ec && cr==er){
+            return dp[cr][cc] =  grid[cr][cc];
+        }
+        if (dp[cr][cc]!=0){
+            return dp[cr][cc];
+        }
+        int right = solution(grid,cr,cc+1,er,ec,dp);
+        int down = solution(grid,cr+1,cc,er,ec,dp);
+//        int myAns = Math.min(right,down)+grid[cr][cc];
+//        return myAns;
+        return dp[cr][cc] = Math.min(right,down) + grid[cr][cc];
+    }
+
+
+Q7 Edit Distance 
+https://leetcode.com/problems/edit-distance/
+
