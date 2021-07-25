@@ -70,8 +70,11 @@ public int maxUncrossedLines(int[] nums1, int[] nums2) {
         }
     }
 
+Q6 Edit Distance 
+https://leetcode.com/problems/edit-distance/
 
-Q6 Minimum Path Sum
+
+Q7 Minimum Path Sum
 https://leetcode.com/problems/minimum-path-sum/
 
 (Approach 1)
@@ -99,6 +102,4 @@ public int minPathSum(int[][] grid) {
     }
 
 
-Q7 Edit Distance 
-https://leetcode.com/problems/edit-distance/
 
