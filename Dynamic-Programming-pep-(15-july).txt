@@ -350,3 +350,154 @@ public static void main(String args[] ) throws Exception {
 
     }
 
+Q6 Nth Catalan Number
+
+(Approach 1)
+
+Q7 Total number of possible binary search trees 
+https://leetcode.com/problems/unique-binary-search-trees/
+
+(Approach 1)
+public int numTrees(int n) {
+        int[] dp = new int[n+1];
+        dp[0] = 1;
+        dp[1] = 1;
+        for(int i =2; i<=n; i++){
+            int l = 0;
+            int r = i-1;
+            while(l<=i-1){
+                dp[i]+=dp[l]*dp[r];
+                l++;
+                r--;
+            }
+        }
+        return dp[n];
+    }
+
+Q8 Count Valid Brackets
+
+(Approach 1)
+
+public static void main(String[] args) throws Exception {
+    // write your code here
+    Scanner sc = new Scanner(System.in);
+    int n = sc.nextInt();
+    int[] dp = new int[n+1];
+    dp[0] = 1;
+    dp[1] = 1;
+    for(int i = 2; i<=n;i++){
+        int inside = i-1;
+        int outside = 0;
+        while(inside >= 0){
+            dp[i]+=dp[inside]*dp[outside];
+            inside--;
+            outside++;
+        }
+    }
+    System.out.println(dp[n]);
+ }
+
+Q9 Count of Valleys and Mountains
+
+
+		DP(18 July)
+
+Q10 Buy and Sell stocks - single transaction
+https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
+
+(Approach 1)
+public int maxProfit(int[] prices) {
+        int dp_i10 = 0;
+        int dp_i11 = Integer.MIN_VALUE;
+        for(int val : prices){
+            dp_i10 = Math.max(dp_i10, dp_i11 + val);
+            dp_i11 = Math.max(dp_i11,-val);
+            
+        }
+        return dp_i10;
+    }
+
+Q11 Buy and sell stocks -infinite transaction
+
+Q12 Buy and Sell Stocks - atmost 2 transactions
+https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/
+
+(Approach 1) 
+public int maxProfit(int[] prices) {
+        int dp_i10 = 0;
+        int dp_i20 = 0;
+        int dp_i11 = Integer.MIN_VALUE;
+        int dp_i21 = Integer.MIN_VALUE;
+        for(int val : prices){
+            dp_i20 = Math.max(dp_i20,dp_i21+val);
+            dp_i21 = Math.max(dp_i21, dp_i10-val);
+            dp_i10 = Math.max(dp_i10,dp_i11+val);
+            dp_i11 = Math.max(dp_i11, -val);
+        }
+        return dp_i20;
+    }
+
+Q13 Highway Billboard Problem
+
+(Approach 1)
+public static int solution(int m , int[] x, int[] rev, int t) {
+        // write your code here
+        HashMap<Integer,Integer> map = new HashMap<>();
+        for(int i = 0; i<x.length; i++){
+            map.put(x[i], rev[i]);
+        }
+        int[] dp = new int[m+1];
+        dp[0] = 0;
+        for(int i = 1; i<=m; i++){
+            if(map.containsKey(i) == false){
+                dp[i] = dp[i-1];
+            }else{
+                int boardNotInstalled = dp[i-1];
+                int boardInstalled = map.get(i);
+                if(i>=t+1){
+                    boardInstalled += dp[i-t-1];
+                }
+                dp[i] = Math.max(boardNotInstalled,boardInstalled);
+            }
+        }
+        return dp[m];
+    }
+
+		
+
+		DP(22 July)
+
+Q14 Burst Balloons
+https://leetcode.com/problems/burst-balloons/
+
+(Approach 1)
+
+public int maxCoins(int[] nums) {
+        int[] arr = new int[nums.length+2];
+        arr[0] = 1;
+        arr[arr.length-1] = 1;
+        for(int i = 0; i<nums.length; i++){
+            arr[i+1] = nums[i];
+        }
+        int[][] dp = new int[arr.length][arr.length];
+        return burst(arr,0,arr.length-1,dp);
+    }
+    public int burst(int[] arr, int left, int right, int[][] dp){
+        if(left+1==right){
+            return 0;
+        }
+        if(dp[left][right]>0){
+            return dp[left][right];
+        }
+        int ans = 0;
+        for(int i = left+1; i<right; i++){
+            int tempLeft = burst(arr,left,i,dp);
+            int tempRight = burst(arr,i,right,dp);
+            
+            int currAns = tempLeft + tempRight + arr[left]*arr[i]*arr[right];
+            ans = Math.max(ans,currAns);
+        }
+        dp[left][right] = ans;
+        return ans;
+    }
+

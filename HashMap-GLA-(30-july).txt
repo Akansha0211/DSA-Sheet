@@ -1,0 +1,33 @@
+		HashMaps(30 July)
+
+Q1 Majority Element
+
+Q2 Group Anagrams
+https://leetcode.com/problems/group-anagrams/
+
+(Approach 1)
+
+public List<List<String>> groupAnagrams(String[] strs) {
+        Map<String,List<String>> map = new HashMap<>();
+        for(String str : strs){
+            char[] currentStringArr = str.toCharArray();
+            Arrays.sort(currentStringArr);
+            String sortedString = new String(currentStringArr);// sorted arr to string
+            
+            if(map.containsKey(sortedString)){
+                List<String> list = map.get(sortedString);
+                list.add(str);
+                map.put(sortedString, list);
+            }else{
+                List<String> list = new ArrayList<>();
+                list.add(str);
+                map.put(sortedString,list);
+            }
+        }
+        List<List<String>> ans = new ArrayList<>(map.values());
+        return ans;
+    }
+
+(Approach 2)
+
+

@@ -6,6 +6,36 @@ https://leetcode.com/problems/house-robber/
 Q2 Coin Change
 https://leetcode.com/problems/coin-change-2/
 
+(Approach 1)
+
+public int change(int amount, int[] coins) {
+        int n = coins.length;
+        int[][] dp = new int[n+1][amount+1];
+        for (int[] row : dp){
+            Arrays.fill(row,-1);
+        }
+        int ans = solution(coins,0,n,amount,dp);
+        return ans;
+    }
+    public static int solution(int[]coins, int curr, int n, int amount,int[][] dp){
+        if (amount ==0){
+            return 1;
+        }
+        if (curr == n){
+            return 0;
+        }
+        if (dp[curr][amount] !=-1){
+            return dp[curr][amount];
+        }
+        int incl = 0;
+        int excl = 0;
+        if (coins[curr]<=amount){
+            incl = solution(coins,curr,n,amount-coins[curr],dp);
+        }
+        excl = solution(coins,curr+1,n,amount,dp);
+        return dp[curr][amount] = incl + excl;
+    }
+
 
 Q3 Distinct Subsequence
 https://leetcode.com/problems/distinct-subsequences/
@@ -73,6 +103,32 @@ public int maxUncrossedLines(int[] nums1, int[] nums2) {
 Q6 Edit Distance 
 https://leetcode.com/problems/edit-distance/
 
+(Approach 1)
+public static void main(String[] args) {
+        Scanner scn = new Scanner(System.in);
+        String s1 = scn.next();
+        String s2 = scn.next();
+        int n = s1.length();
+        int m = s2.length();
+        System.out.println(editDist(s1, s2, n, m));
+    }
+    public static int editDist(String s1, String s2, int n, int m){
+        if(n == 0 && m == 0)
+            return 0;
+        if(n == 0)
+            return m;
+        if(m == 0)
+            return n;
+        if(s1.charAt(n - 1) == s2.charAt(m - 1))
+            return editDist(s1, s2, n - 1, m - 1);
+        else{
+            int insert = editDist(s1, s2, n, m - 1);
+            int replace = editDist(s1, s2, n - 1, m - 1);
+            int delete = editDist(s1, s2, n - 1, m);
+            return Math.min(insert, Math.min(replace, delete)) + 1; // Add 1 in the answer when you had to perform the operation
+        }
+    }
+
 
 Q7 Minimum Path Sum
 https://leetcode.com/problems/minimum-path-sum/
@@ -102,4 +158,246 @@ public int minPathSum(int[][] grid) {
     }
 
 
+			DP(26 July)
+Q1 Longest Increasing subsequence
 
+(Approach 1)
+Tabulation 
+public int lengthOfLIS(int[] nums) {
+        int n = nums.length;
+        int[] dp = new int[n];
+
+        int overall_max = 0;
+        for (int i = 0; i<dp.length; i++){
+            int max = 0;
+            for (int j = 0; j<i; j++){
+                if(nums[j]<nums[i]){
+                    if (dp[j]>max){
+                        max = dp[j];
+                    }
+                }
+            }
+            dp[i] = max + 1;
+            if (dp[i]>overall_max){
+                overall_max = dp[i];
+            }
+        }
+        return overall_max;
+    }
+(Approach 2)
+Memoization
+
+Q2 Friends Pairing Problem
+
+(Approach 1)
+public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt();
+        while(t>0){
+            int n = sc.nextInt();
+            long[] dp = new long[n+1];
+            Arrays.fill(dp,-1);
+            System.out.println(pairing(n,dp));
+            t--;
+        }
+    }
+    private static long pairing(int n,long[] dp){
+
+        if(n==0 || n==1 || n==2){
+            return n;
+        }
+
+        if(dp[n]!= -1){
+            return dp[n];
+        }
+
+        long single = pairing(n-1,dp);
+        long pair = (n-1)*pairing(n-2,dp);
+        dp[n] = single + pair;
+        return dp[n];
+
+    }
+Q3 Board Path
+
+(Approach 1)
+
+static int count =0;
+    private static void boardpath(String s ,int n, int m, int curr){
+        if(curr==n){
+            count++;
+            System.out.print(s+" ");
+            return;
+            }
+        if(curr>n){return;}
+        for(int i = 1;i<=m;i++){
+            boardpath(s+i,n,m,curr+i);
+            }
+    }
+    public static void main(String args[]) {
+        // Your Code Here
+        Scanner sc = new Scanner(System.in);
+        int n= sc.nextInt();
+        int m =sc.nextInt();
+        boardpath("",n,m,0);
+        System.out.println();
+        System.out.println(count);
+    }
+
+Q4 LCS with 3 Strings
+
+(Approach 1)
+public static void main(String args[]) {
+		Scanner sc = new Scanner(System.in);
+        String str1 = sc.next();
+        String str2 = sc.next();
+        String str3 = sc.next();
+        int n = str1.length();
+        int m = str2.length();
+        int p = str3.length();
+        int[][][] dp = new int[n+1][m+1][p+1];
+        for (int[][] row : dp){
+            for (int[] column : row){
+                Arrays.fill(column,-1);
+            }
+        }
+        int ans = solution(str1,str2,str3,n, m,p,dp);
+        System.out.println(ans);
+    }
+	public static int solution(String s1, String s2,String s3, int n , int m,int p, int[][][] dp){
+        if (n==0 || m==0 || p==0){
+            return 0;
+        }
+        if (dp[n][m][p] !=-1){
+            return dp[n][m][p];
+        }
+        if (s1.charAt(n-1) == s2.charAt(m-1) && s2.charAt(m-1)== s3.charAt(p-1)) {
+            return dp[n][m][p] = 1 + solution(s1, s2,s3,n - 1, m - 1,p-1,dp);
+        }else {
+            int choice1 = solution(s1,s2,s3,n,m-1,p,dp);
+            int choice2 = solution(s1,s2,s3,n-1,m,p,dp);
+            int choice3 = solution(s1,s2,s3,n,m,p-1,dp);
+//            return dp[n][m] = Math.max(choice1,choice2);
+            return dp[n][m][p] =  Math.max(Math.max(choice1,choice2),choice3);
+        }
+    }
+
+Q5 k-Ordered LCS
+
+(Approach 1)
+
+public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        int m = scanner.nextInt();
+        int k = scanner.nextInt();
+        int[] arr1 = new int[n];
+        int[] arr2 = new int[m];
+        for(int i = 0; i<n; i++){
+            arr1[i] = scanner.nextInt();
+        }
+        for(int i = 0; i<m; i++){
+            arr2[i] = scanner.nextInt();
+        }
+        int[][][] dp = new int[n+1][m+1][k+1];
+        for (int[][] row:dp) {
+            for (int[] col:row) {
+                Arrays.fill(col,-1);
+            }
+        }
+        int ans = solution(arr1,arr2,arr1.length,arr2.length,k,dp);
+        System.out.println(ans);
+    }
+    public static int solution(int[] arr1, int[] arr2, int len1, int len2, int k, int[][][]dp){
+        if (len1 == 0 || len2 == 0){
+            return 0;
+        }
+        if(dp[len1][len2][k] != -1){
+            return dp[len1][len2][k];
+        }
+        if (arr1[len1-1] == arr2[len2-1]){
+            return dp[len1][len2][k] = 1+ solution(arr1,arr2,len1-1,len2-1,k,dp);
+        }
+        else{
+            int kways=0;
+            if(k>0){
+             kways =1 +  solution(arr1,arr2,len1-1,len2-1,k-1,dp);
+            }
+            int choice1 = solution(arr1,arr2,len1,len2-1,k,dp);
+            int choice2 = solution(arr1,arr2,len1-1,len2,k,dp);
+            return dp[len1][len2][k] = Math.max(choice1,Math.max(choice2,kways));
+        }
+    }
+
+Q6 Climbing Stairs
+
+(Approach 1)
+
+public static void main (String args[]) {
+		Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int ans = solution(n);
+        System.out.println(ans);
+    }
+	public static int solution(int n){
+        if (n==0){
+            return 1;
+        }
+        if (n<0){
+            return 0;
+        }
+        int choice1 = solution(n-1);
+        int choice2 = solution(n-2);
+        return choice1 + choice2;
+    }
+
+Q7 Goldmine Problem
+
+(Approach 1)
+
+take an array answer of size no. of rows and run a loop for every row and return the maximum element of array answer
+
+public static int sol(int[][] grid, int cr,int cc, int er, int ec,int [][] dp) {
+        if (cr>er || cc>ec || cr<0 || cc<0){
+            return 0;
+        }
+        if (cr==er && cc==ec){
+            return grid[cr][cc];
+        }
+		if(dp[cr][cc]!=-1){
+			return dp[cr][cc];
+		}
+        int r = sol(grid,cr,cc+1,er,ec,dp);
+        int ru = sol(grid,cr-1,cc+1,er,ec,dp);
+        int rd = sol(grid,cr+1,cc+1,er,ec,dp);
+        int ans = grid[cr][cc]+ Math.max(r,Math.max(ru,rd));
+        return dp[cr][cc] = ans;
+    }
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+        int T = s.nextInt();
+        for (int i = 0; i < T; i++) {
+            int m = s.nextInt();
+            int n = s.nextInt();
+            int[][] grid = new int[m][n];
+            for (int j = 0; j <m; j++) {
+                for (int k = 0; k <n ; k++) {
+                    grid[j][k]= s.nextInt();
+                }
+
+            }
+			int ans[]=new int[m];
+			int dp[][]=new int[m+1][n+1];
+            for(int[] r:dp){
+            Arrays.fill(r,-1);
+        }
+			 for(int j=0;j<m;j++){
+            ans[j]= sol(grid,j,0,m-1,n-1,dp); // check answer for every row possible
+        }
+        Arrays.sort(ans);
+        System.out.println(ans[m-1]);
+
+        }
+    }
+
+
+Q8 
