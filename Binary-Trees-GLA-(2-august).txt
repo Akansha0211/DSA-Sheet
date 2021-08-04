@@ -1,0 +1,259 @@
+			Binary Trees(2 August)
+
+Q1 Maximum Depth of Binary Tree
+https://leetcode.com/problems/maximum-depth-of-binary-tree/
+
+(Approach 1)
+
+public int maxDepth(TreeNode root) {
+        // maxDepth or Height
+        if(root == null){
+            return 0;
+        }
+        int leftHeight = maxDepth(root.left);
+        int rightHeight = maxDepth(root.right);
+        int myHeight = Math.max(leftHeight, rightHeight) + 1;
+        return myHeight;
+    }
+
+
+Q2 Path Sum
+https://leetcode.com/problems/path-sum/
+
+(Approach 1)
+public boolean hasPathSum(TreeNode root, int targetSum) {
+        if(root == null){
+            return false;
+        }
+        if(root.left == null && root.right == null  && (targetSum - root.val == 0)){
+            return true;
+        }
+        boolean left = hasPathSum(root.left, targetSum - root.val);
+        boolean right = hasPathSum(root.right, targetSum - root.val);
+        return left || right;
+    }
+
+Q3 Sum Root to Leaf Numbers
+https://leetcode.com/problems/sum-root-to-leaf-numbers/
+
+(Approach 1)
+
+
+			Binary Trees(3 August)
+
+Q4 Diameter of Binary Tree
+https://leetcode.com/problems/diameter-of-binary-tree/
+
+(Approach 1)
+public int diameterOfBinaryTree(TreeNode root) {
+        if(root == null){
+            return 0;
+        }
+        int left = maxDepth(root.left);
+        int right = maxDepth(root.right);
+        
+        int diameter = left + right;
+        
+        int leftDia = diameterOfBinaryTree(root.left);
+        int rightDia = diameterOfBinaryTree(root.right);
+        
+        return Math.max(diameter, Math.max(leftDia, rightDia));
+            
+    }
+    public int maxDepth(TreeNode root) {
+        // maxDepth or Height
+        if(root == null){
+            return 0;
+        }
+        int leftHeight = maxDepth(root.left);
+        int rightHeight = maxDepth(root.right);
+        int myHeight = Math.max(leftHeight, rightHeight) + 1;
+        return myHeight;
+    }
+
+(Approach 2)
+
+public class Pair{
+        int height;
+        int diameter;
+        
+        public Pair(int height, int diameter){
+            this.height = height;
+            this.diameter = diameter;
+        }
+    }
+    public int diameterOfBinaryTree(TreeNode root) {
+        Pair ans = helper(root);
+        return ans.diameter;
+    }
+    public Pair helper(TreeNode root){
+        if(root == null){
+            return new Pair(0,0);
+        }
+        Pair left = helper(root.left);
+        Pair right = helper(root.right);
+        
+        int apniHeight = Math.max(left.height, right.height) + 1;
+        int apnaDia  = left.height + right.height;
+        
+        int treeDia = Math.max(apnaDia, Math.max(left.diameter, right.diameter));
+        
+        return new Pair(apniHeight, treeDia);
+        
+    }
+
+Q5 Path Sum II
+https://leetcode.com/problems/path-sum-ii/
+
+(Approach 1)
+
+
+Q6 Balanced Binary Tree
+https://leetcode.com/problems/balanced-binary-tree/
+
+(Approach 1)
+public boolean isBalanced(TreeNode root) {
+        if(root == null){
+            return true;
+        }
+        int leftHeight = maxDepth(root.left);
+        int rightHeight = maxDepth(root.right);
+        
+        // boolen amIBalanced = Math.abs(leftHeight, rightHeight) <= 1;
+        
+        int diff = Math.abs(leftHeight -  rightHeight);
+        if(diff <= 1){
+            boolean left = isBalanced(root.left);
+            boolean right = isBalanced(root.right);
+            
+            return left && right;
+        }else{
+            return false;
+        }
+        
+    }
+    public int maxDepth(TreeNode root) {
+        if(root == null){
+            return 0;
+        }
+        int leftHeight = maxDepth(root.left);
+        int rightHeight = maxDepth(root.right);
+        
+        int meriHeight = Math.max(leftHeight, rightHeight)+1;
+        
+        return meriHeight;
+    }
+
+
+(Approach 2)
+
+public class Pair{
+        int height;
+        boolean isBal;
+        
+        public Pair(int height, boolean isBal){
+            this.height = height;
+            this.isBal = isBal;
+        }
+    }
+    public boolean isBalanced(TreeNode root) {
+        Pair ans = helper(root);
+        return ans.isBal;
+    }
+    public Pair helper(TreeNode root){
+        if(root == null){
+            return new Pair(0, true);
+        }
+        Pair left = helper(root.left);
+        Pair right = helper(root.right);
+        
+        int apniHeight = Math.max(left.height, right.height) + 1;
+        int apnaDiff = Math.abs(left.height - right.height);
+        
+        boolean kyaTreeBalancedHain = apnaDiff <= 1 && left.isBal && right.isBal;
+        return new Pair(apniHeight, kyaTreeBalancedHain);
+    }
+
+Q7 Level Order Traversal
+https://leetcode.com/problems/binary-tree-level-order-traversal/
+
+(Approach 1)
+
+public List<List<Integer>> levelOrder(TreeNode root) {
+        
+        if(root == null){
+            return new ArrayList<>();
+        }
+        
+        Queue<TreeNode> bfs = new LinkedList<>();
+        List<List<Integer>> ans = new ArrayList<>();
+        bfs.add(root);
+        while(!bfs.isEmpty()){
+           
+           List<Integer> levelList = new ArrayList<Integer>(); 
+            int n = bfs.size();
+            for(int i = 0; i<n; i++){
+                
+                TreeNode front = bfs.poll();
+                levelList.add(front.val);
+                if(front.left != null){
+                    bfs.add(front.left);
+                }
+                
+                if(front.right != null){
+                    bfs.add(front.right);
+                }
+            }
+            ans.add(levelList);
+            
+        }
+        return ans;
+        
+    }
+
+
+Q8 Right Side View
+https://leetcode.com/problems/binary-tree-right-side-view/
+
+(Approach 1)
+
+public List<Integer> rightSideView(TreeNode root) {
+        
+        if(root == null){
+            return new ArrayList<>();
+        }
+        
+        Queue<TreeNode> bfs = new LinkedList<>();
+        // List<List<Integer>> ans = new ArrayList<>();
+        
+        List<Integer> rightView = new ArrayList<>();
+        
+        bfs.add(root);
+        while(!bfs.isEmpty()){
+           
+           List<Integer> levelList = new ArrayList<Integer>(); 
+            int n = bfs.size();
+            for(int i = 0; i<n; i++){
+                
+                TreeNode front = bfs.poll();
+                
+                if(i == n-1){
+                    rightView.add(front.val);
+                }
+                
+                if(front.left != null){
+                    bfs.add(front.left);
+                }
+                
+                if(front.right != null){
+                    bfs.add(front.right);
+                }
+            }
+            // ans.add(levelList);
+            
+        }
+        return rightView;
+    }
+
+ 
+
