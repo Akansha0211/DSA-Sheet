@@ -223,3 +223,104 @@ public int splitArray(int[] nums, int m) {
         return ans;
     }
 
+Q7 Book Allocation Problem 
+https://practice.geeksforgeeks.org/problems/allocate-minimum-number-of-pages0937/1#
+
+(Approach 1)
+
+public static void main(String args[]) {
+		Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt();
+        while(t>0){
+            int n = sc.nextInt(); // number of books
+            int m = sc.nextInt(); // number of students
+            int[] arr = new int[n];
+            for (int i = 0; i<n; i++){
+                arr[i] = sc.nextInt();
+            }
+            int res = findPages(arr,n,m);
+            System.out.println(res);
+            t--;
+        }
+    }
+	public static int findPages(int[] arr, int n, int m){
+
+        int max = 0;
+        int sum = 0;
+        for (int val : arr){
+            max = Math.max(max, val);
+            sum+= val;
+        }
+        int lo = max;
+        int hi = sum;
+        int ans = 0;
+        while (lo<= hi){
+            int mid = lo + (hi-lo)/2;
+            int reqM = 1;
+            int sumChk = 0;
+            for (int val : arr){
+                if (sumChk + val <= mid){
+                    sumChk+=val;
+                }else {
+                    sumChk = val;
+                    reqM++;
+                }
+            }
+
+            if (reqM <= m){
+                ans = mid;
+                hi = mid -1;
+            }else {
+                lo = mid + 1;
+            }
+        }
+        return  ans;
+    }
+
+Q8 Agressive Cows
+
+(Approach 1)
+
+public static void main(String args[]) {
+	Scanner sc = new Scanner(System.in);
+        int N = sc.nextInt();
+        int C = sc.nextInt();
+        int[] arr = new int[N];
+        for (int i = 0; i<N; i++){
+            arr[i] = sc.nextInt();
+        }
+		Arrays.sort(arr);
+        int res = placeCows(arr,N,C);
+        System.out.println(res);
+    }
+	public static int placeCows(int[] arr, int N , int C){
+        int lo = 1;
+        int hi = arr[N-1] - arr[0];
+        int ans = 0;
+        while (lo<=hi){
+            int mid = lo + (hi - lo)/2;
+            if (canPlaceCows(arr,N,C,mid)){
+                ans = mid;
+                lo = mid + 1;
+            }else {
+               hi = mid -1;
+            }
+        }
+        return ans;
+    }
+    public static boolean canPlaceCows(int[] arr, int N, int cows, int dist){
+        int coord = arr[0];
+        int cnt = 1;
+        for (int i = 1; i<N; i++){
+            if (arr[i] - coord >= dist){
+                cnt++;
+                coord = arr[i];
+            }
+            if (cnt == cows){
+                return true;
+            }
+        }
+        return false;
+    }
+
+Q9

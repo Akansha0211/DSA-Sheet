@@ -1,0 +1,236 @@
+			Stacks(28 July)
+
+Q1 Stock Span
+
+(Approach 1)Brute Force
+
+public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N = sc.nextInt();
+        int[] arr = new int[N];
+        for (int i = 0; i<N; i++){
+            arr[i] = sc.nextInt();
+        }
+        int[] span = new int[N];
+        span[0] = 1; // selfish building
+        for (int curr = 1; curr<N; curr++){
+            span[curr] = 1;
+            for (int prev = curr-1; prev>=0; prev--){
+                if (arr[prev] < arr[curr]){
+                    span[curr]++;
+                }else {
+                    break;
+                }
+            }
+        }
+        for (int val : span){
+            System.out.print(val+" ");
+
+        }
+        
+    }
+
+(Approach 2) Optimized Using Stacks
+
+public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N = sc.nextInt();
+        int[] arr = new int[N];
+        for (int i = 0; i<N; i++){
+            arr[i] = sc.nextInt();
+        }
+        int[] span = new int[N];
+        span[0] = 1; // selfish building
+
+        Stack<Integer> st = new Stack<>();
+        st.push(0);
+
+        for (int curr = 1; curr<N; curr++){
+            while (!st.isEmpty() && arr[st.peek()]<arr[curr]){
+                st.pop();
+            }
+//            span[curr] = curr - st.peek();
+            span[curr] = st.isEmpty() ? curr + 1: curr - st.peek();
+            st.push(curr);
+        }
+        for (int val : span){
+            System.out.print(val + " ");
+        }
+
+    }
+
+
+Q2 Next Greater Element
+
+(Approach 1)
+
+public static void nextLarger(int[] arr) {
+        int[] nge = new int[arr.length];
+        Stack<Integer> st = new Stack<>();
+        st.push(0);
+        for (int curr = 1; curr < arr.length; curr++){
+            while (!st.isEmpty() && arr[st.peek()]<arr[curr]){
+//                System.out.println(st.pop() + " -> " + arr[curr]);
+                nge[st.pop()] = arr[curr];
+
+            }
+            st.push(curr);
+        }
+        while (!st.isEmpty()){
+//            System.out.println(st.pop()+ " -> "+ -1);
+            nge[st.pop()] = -1;
+        }
+
+        for (int i = 0; i<arr.length; i++){
+            System.out.println(arr[i] + ","+ nge[i]);
+        }
+    }
+
+
+Q3 Next Greater Element CYCLIC
+
+(Approach 1)
+
+public static void nextLarger(int[] arr) {
+        int[] nge = new int[arr.length]; // nge cyclic
+        Stack<Integer> st = new Stack<>();
+//        st.push(0);
+        for (int curr = 0; curr < 2* arr.length; curr++){
+            while (!st.isEmpty() && arr[st.peek()]<arr[curr % arr.length]){
+                nge[st.pop()] = arr[curr % arr.length];
+            }
+            if(curr<arr.length){
+                st.push(curr % arr.length);
+            }
+        }
+        while (!st.isEmpty()){
+            nge[st.pop()] = -1;
+        }
+
+        for (int val : nge){
+            System.out.print(val + " ");
+        }
+    }
+
+Q4 Next Smaller Element
+
+(Approach 1) same template only sign change
+
+public static void nextSmaller(int[] arr) {
+        int[] nge = new int[arr.length];
+        Stack<Integer> st = new Stack<>();
+        st.push(0);
+        for (int curr = 1; curr < arr.length; curr++){
+            while (!st.isEmpty() && arr[st.peek()]>arr[curr]){
+                nge[st.pop()] = arr[curr];
+
+            }
+            st.push(curr);
+        }
+        while (!st.isEmpty()){
+            nge[st.pop()] = -1;
+        }
+
+        for (int i = 0; i<arr.length; i++){
+            System.out.println(arr[i] + ","+ nge[i]);
+        }
+    }
+
+		 Stacks(29 July)
+		
+Q5 Largest Area in Histogram
+
+(Approach 1)
+
+public int largestRectangleArea(int[] heights) {
+        
+        
+        // nse
+        int[] nse = new int[heights.length];
+        Stack<Integer> st = new Stack<>();
+        st.push(0);
+        for (int curr = 1; curr < heights.length; curr++){
+            while (!st.isEmpty() && heights[st.peek()]>heights[curr]){
+//                nse[st.pop()] = arr[curr];
+                nse[st.pop()] = curr;
+
+            }
+            st.push(curr);
+        }
+        while (!st.isEmpty()){
+//            nse[st.pop()] = -1;
+            nse[st.pop()] = heights.length;
+        }
+
+        //pse
+
+        int[] pse = new int[heights.length];
+//        Stack<Integer> st = new Stack<>();
+
+        st.push(0);
+        pse[0] = -1;
+
+        for (int curr = 1; curr<heights.length; curr++){
+            while (!st.isEmpty() && heights[curr] <= heights[st.peek()]){
+                st.pop();
+            }
+
+            if (!st.isEmpty()){
+                pse[curr] = st.peek();
+            }else {
+                pse[curr] = -1;
+            }
+            st.push(curr);
+
+        }
+        int maxArea = Integer.MIN_VALUE;
+        for (int i = 0; i<heights.length; i++){
+            int width = nse[i] - pse[i] - 1;
+            int area = width * heights[i];
+
+            maxArea = Math.max(maxArea,area);
+        }
+        return maxArea;
+    }
+
+
+
+Q1 Form Minimum number from given Sequence
+
+(Approach 1)
+
+public static void main(String args[]) {
+	Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+
+        String[] arr = new String[n];
+        for (int i = 0; i<n; i++){
+            arr[i] = sc.next();
+
+            System.out.println();
+            formMin(arr[i],n);
+
+        }
+    }
+	public static void formMin(String str, int n){
+        Stack<Integer> st = new Stack<>();
+        int num = 1;
+        for (int j = 0; j<str.length(); j++){
+            char ch = str.charAt(j);
+            if (ch == 'D'){
+                st.push(num);
+                num++;
+            }else {
+                st.push(num);
+                num++;
+                while (!st.isEmpty()){
+                    System.out.print(st.pop());
+                }
+            }
+        }
+        st.push(num);
+        while (!st.isEmpty()){
+            System.out.print(st.pop());
+        }
+    }
+
