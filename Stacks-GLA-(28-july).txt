@@ -194,6 +194,103 @@ public int largestRectangleArea(int[] heights) {
     }
 
 
+Q6 Valid Parenthesis
+https://leetcode.com/problems/valid-parentheses/
+
+(Approach 1)
+
+public boolean isValid(String s) {
+        
+        Stack<Character> st = new Stack<>();
+
+        for (int i = 0; i<s.length(); i++){
+            char ch = s.charAt(i);
+            // open bracket -- > push
+            if (ch == '(' || ch == '{' || ch == '['){
+                st.push(ch);
+            }else  if (ch == ')'){
+                boolean val =  handleCloseBrackets(st,'(');
+                if (val == false){
+                    // System.out.println(false);
+                    return false;
+                }
+
+            }else if (ch == '}'){
+                boolean val = handleCloseBrackets(st, '{');
+                if (val == false){
+                    // System.out.println(false);
+                    return false;
+                }
+            }else if (ch == ']'){
+                boolean val = handleCloseBrackets(st,'[');
+                if (val == false){
+                    // System.out.println(false);
+                    return false;
+                }
+            }
+        }
+        if (st.size() == 0){
+            // System.out.println(true);
+            return true;
+        }else {
+            // System.out.println(false);
+            return false;
+        }
+    }
+    public static boolean handleCloseBrackets(Stack<Character> st, char corresopnChar){
+        if (st.size() == 0){
+            return false;
+        }else if (st.peek() != corresopnChar){
+            return false;
+        }else {
+            st.pop();
+            return true;
+        }
+    }
+
+
+
+Q7 The Celebrity Problem
+https://practice.geeksforgeeks.org/problems/the-celebrity-problem/1
+
+(Approach 1)
+
+int celebrity(int M[][], int n)
+    {
+    	// code here 
+    	
+    	Stack<Integer> st = new Stack<>();
+        for (int i = 0; i<M.length; i++){
+            st.push(i);
+        }
+        while (st.size()>=2){
+            int personId1 = st.pop();
+            int personId2 = st.pop();
+            if (M[personId1][personId2] == 1 ){
+                // if personId1 knows personId2 --> personId1 is not a celebrity
+                st.push(personId2);
+            }else {
+                // if If personId1 does not know peronId2 , personId is not a celebrity
+                st.push(personId1);
+            }
+        }
+        // only one is left in stack
+        // potential celebrity
+        int pot = st.pop();
+        for (int i = 0; i<M.length ; i++){
+            if (i != pot){
+                if (M[i][pot] == 0 || M[pot][i] == 1){
+                    // System.out.println("No Celebrity");
+                    // return;
+                    return -1;
+                }
+            }
+        }
+        // System.out.println(pot);
+        return pot;
+    	
+    }
+
 
 Q1 Form Minimum number from given Sequence
 
@@ -233,4 +330,7 @@ public static void main(String args[]) {
             System.out.print(st.pop());
         }
     }
+
+
+
 
